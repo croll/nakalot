@@ -9,7 +9,7 @@ body {
   color: white;
   height: 100vh;
   background-color: #232c39;
-  background-image: linear-gradient(45deg, rgba(0, 216, 255, 0.5) 10%, rgba(0, 1, 127, 0.7));
+  background-image: linear-gradient(45deg, rgba(180, 0, 90, 1), 50%, rgba(4, 59, 89, 1));
   font-family: Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
 }
@@ -40,4 +40,58 @@ a:hover {
   opacity: 1;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* header */
+.header {
+  display: flex;
+  flex-direction: horizontal;
+  margin-bottom: 2em;
+}
+
+.header .header-back {
+  flex: 1 1 auto;
+  font-size: 1em;
+}
+
+.header .header-title {
+  flex: 1 1 auto;
+  font-size: 2em;
+  text-align: right;
+}
+
+/* common */
+
+.stage {
+  margin-bottom: 1em;
+}
+
+/* home */
+.HomeDesc {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+a.Start {
+  font-size: 1.4rem;
+}
+
+
+/* Parameters */
+
+.Parameters .form {
+  margin: 1em;
+}
+
+.Parameters .form>div {
+  margin: 1em;
+}
+
+.Parameters .form label {
+  display: inline-block;
+  min-width: 9em;
+}
+
+.Parameters .form input {
+  min-width: 20em;
 }
