@@ -12,8 +12,14 @@ export default class Home extends Component<Props> {
   render() {
     return (
       <div className={styles.container} data-tid="container">
-        <h2>Home</h2>
-        <Link to={routes.COUNTER}>to Counter</Link>
+        <h2>Nakalot</h2>
+        <div className="HomeDesc">
+          Bienvenue sur l'application Nakalot.
+          Cette application vous permet d'envoyer plusieurs fichiers d'un coup sur Nakala.
+          Pour plus d'information et documentation, consultez l'aide ici :
+            <a target='_blank' href='http://www.google.fr/'>http://www.google.fr/</a>
+        </div>
+        <Link className="Start" to={routes.PARAMETERS}>Commencer...</Link>
       </div>
     );
   }
