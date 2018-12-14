@@ -6,12 +6,19 @@ import HomePage from './containers/HomePage';
 import CounterPage from './containers/CounterPage';
 import ParametersPage from './containers/ParametersPage';
 
+import { AnimatedSwitch } from 'react-router-transition';
+
 export default () => (
   <App>
-    <Switch>
+    <AnimatedSwitch
+      atEnter={{ opacity: 0 }}
+      atLeave={{ opacity: 0 }}
+      atActive={{ opacity: 1 }}
+      className="switch-wrapper"
+    >
       <Route path={routes.COUNTER} component={CounterPage} />
       <Route path={routes.PARAMETERS} component={ParametersPage} />
       <Route path={routes.HOME} component={HomePage} />
-    </Switch>
+    </AnimatedSwitch>
   </App>
 );
