@@ -12,6 +12,8 @@ body {
   background-image: linear-gradient(45deg, rgba(180, 0, 90, 1), 50%, rgba(4, 59, 89, 1));
   font-family: Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 h2 {
@@ -20,6 +22,7 @@ h2 {
   font-weight: bold;
   letter-spacing: -0.025em;
   color: #fff;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 p {
@@ -48,19 +51,26 @@ a:hover {
   left: 0;
   right: 0;
   top: 0;
+  height: 2.5em;
+  background-color: rgba(255,255,255,0.1);
+  transition: background-color 1s;
+}
+
+.Menu.onHome {
+  background-color: rgba(255,255,255,0);
 }
 
 .Menu .Menu-back {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 0.2em;
+  top: 0.2em;
   transition: left 0.5s;
 }
 
 .Menu .Menu-title {
   position: absolute;
   top: 0;
-  left: calc(100vw - 5em);
+  left: calc(100vw - 4.1em);
   font-size: 2em;
   transition: left 0.5s, top 0.5s, font-size 0.5s;
 }
@@ -70,11 +80,56 @@ a:hover {
 }
 
 .Menu.onHome .Menu-title {
-  top: 1em;
+  top: 0.5em;
   left: 0em;
   font-size: 5em;
   font-weight: bold;
 }
+
+/* Menu */
+.Footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2.5em;
+  background-color: rgba(255,255,255,0.1);
+  transition: background-color 1s;
+  overflow: hidden;
+}
+
+.Footer.onHome {
+  background-color: rgba(255,255,255,0);
+}
+
+.Footer .Footer-next {
+  position: absolute;
+  left: calc(100vw - 6.5em);
+  top: 0.3em;
+  transition: left 0.5s;
+  width: 6.5em;
+}
+
+.Footer .Footer-next>* {
+  vertical-align: middle;
+}
+
+.Footer.onHome .Footer-next {
+  left: calc(100vw + 5em);
+}
+
+.Footer .Footer-title {
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  transition: left 0.5s;
+  font-weight: bold;
+}
+
+.Footer.onHome .Footer-title {
+  left: calc(100vw - 15em);
+}
+
 
 /* common */
 
@@ -89,7 +144,8 @@ a:hover {
 }
 .switch-wrapper {
   position: relative;
-  height: 100%;
+  top: 2em;
+  height: calc(100vh - 2em);
   width: 100%;
   overflow: hidden;
 }
