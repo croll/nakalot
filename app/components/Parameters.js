@@ -48,13 +48,6 @@ export default class Parameters extends Component<Props, {
             <input id="handle" name="handle" type="text" value={handle} onChange={(e) => { this.setState({ handle: e.target.value })}}/>
           </div>
         </div>
-
-        <div className='next' data-tid="nextButton">
-          <Link to={routes.HOME}>
-            <i className="fa fa-arrow-right fa-3x" />
-          </Link>
-        </div>
-
       </div>
     );
   }
