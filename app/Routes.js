@@ -11,18 +11,6 @@ import { AnimatedSwitch } from 'react-router-transition';
 
 export default class Routes extends Component<Props> {
 
-  constructor() {
-    super();
-    this.state = {
-      onHome: true,
-    }
-  }
-
-  setOnHome = (onHome) => {
-    console.log("setting... onHome: ", onHome);
-    this.setState({ onHome });
-  }
-
   render = () => {
     const { onHome } = this.state;
     return (
@@ -34,9 +22,9 @@ export default class Routes extends Component<Props> {
           atActive={{ left: 0 }}
           className="switch-wrapper"
         >
-          <Route path={routes.COUNTER} component={CounterPage} onChange={() => this.setOnHome(false)}/>
-          <Route path={routes.PARAMETERS} component={ParametersPage} onChange={() => this.setOnHome(false)}/>
-          <Route path={routes.HOME} component={HomePage} onChange={() => this.setOnHome(true)} onEnter={() => this.setOnHome(true)}/>
+          <Route path={routes.COUNTER} component={CounterPage}/>
+          <Route path={routes.PARAMETERS} component={ParametersPage}/>
+          <Route path={routes.HOME} component={HomePage}/>
         </AnimatedSwitch>
       </App>
     )
