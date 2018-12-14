@@ -11,9 +11,9 @@ import { AnimatedSwitch } from 'react-router-transition';
 export default () => (
   <App>
     <AnimatedSwitch
-      atEnter={{ opacity: 0 }}
-      atLeave={{ opacity: 0 }}
-      atActive={{ opacity: 1 }}
+      atEnter={{ left: -2000 }}
+      atLeave={{ left: 2000 }}
+      atActive={{ left: 0 }}
       className="switch-wrapper"
     >
       <Route path={routes.COUNTER} component={CounterPage} />
