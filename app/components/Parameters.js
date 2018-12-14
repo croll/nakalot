@@ -31,14 +31,6 @@ export default class Parameters extends Component<Props, {
     } = this.state;
     return (
       <div className="Parameters">
-
-        <div className='header'>
-          <Link className='header-back' to={routes.HOME}>
-            <i className="fa fa-arrow-left fa-2x" />
-          </Link>
-          <div className='header-title'>Nakalot</div>
-        </div>
-
         <h2 className="stage">
           1. Parametres d'envoi
         </h2>

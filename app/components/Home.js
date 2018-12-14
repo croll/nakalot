@@ -12,7 +12,7 @@ export default class Home extends Component<Props> {
   render() {
     return (
       <div className={styles.container} data-tid="container">
-        <h2>Nakalot</h2>
+        <h2>&nbsp;</h2>
         <div className="HomeDesc">
           Bienvenue sur l'application Nakalot.
           Cette application vous permet d'envoyer plusieurs fichiers d'un coup sur Nakala.

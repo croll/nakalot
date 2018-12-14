@@ -42,22 +42,38 @@ a:hover {
   cursor: pointer;
 }
 
-/* header */
-.header {
-  display: flex;
-  flex-direction: horizontal;
-  margin-bottom: 2em;
+/* Menu */
+.Menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
 }
 
-.header .header-back {
-  flex: 1 1 auto;
-  font-size: 1em;
+.Menu .Menu-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: left 0.5s;
 }
 
-.header .header-title {
-  flex: 1 1 auto;
+.Menu .Menu-title {
+  position: absolute;
+  top: 0;
+  left: calc(100vw - 5em);
   font-size: 2em;
-  text-align: right;
+  transition: left 0.5s, top 0.5s, font-size 0.5s;
+}
+
+.Menu.onHome .Menu-back {
+  left: -5em;
+}
+
+.Menu.onHome .Menu-title {
+  top: 1em;
+  left: 0em;
+  font-size: 5em;
+  font-weight: bold;
 }
 
 /* common */
@@ -67,13 +83,19 @@ a:hover {
 }
 
 /* animated switch */
+#root {
+  width: 100%;
+  height: 100%;
+}
 .switch-wrapper {
   position: relative;
   height: 100%;
+  width: 100%;
   overflow: hidden;
 }
 
 .switch-wrapper > div {
+  margin-top: 4em;
   position: absolute;
   width: 100%;
   height: 100%;
