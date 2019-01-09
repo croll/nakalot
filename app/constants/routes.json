@@ -1,5 +1,6 @@
 {
   "HOME": "/",
   "COUNTER": "/counter",
-  "PARAMETERS": "/parameters"
+  "PARAMETERS": "/parameters",
+  "FILECHOOSE": "/filechoose"
 }
