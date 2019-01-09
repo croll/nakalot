@@ -6,6 +6,7 @@ import HomePage from './containers/HomePage';
 import CounterPage from './containers/CounterPage';
 import ParametersPage from './containers/ParametersPage';
 import FileChoosePage from './containers/FileChoosePage';
+import UploadingPage from './containers/UploadingPage';
 import Menu from './components/Menu';
 import Footer from './components/Footer';
 import { Link } from 'react-router-dom';
@@ -27,6 +28,7 @@ export default class Routes extends Component<Props> {
           <Route path={routes.COUNTER} component={CounterPage}/>
           <Route path={routes.PARAMETERS} component={ParametersPage}/>
           <Route path={routes.FILECHOOSE} component={FileChoosePage}/>
+          <Route path={routes.UPLOADING} component={UploadingPage}/>
           <Route path={routes.HOME} component={HomePage}/>
         </AnimatedSwitch>
         <Footer/>

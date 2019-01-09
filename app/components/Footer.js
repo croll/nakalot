@@ -26,7 +26,7 @@ class Footer extends Component<Props, {
             <a href="http://labexmed.org/">@labexmed</a>
             , made by <a href="http://croll.fr/">CROLL</a>
           </div>
-          <Link className='Footer-next' to={routes.FILECHOOSE}>
+          <Link className='Footer-next' to={pathname == '/parameters' ? routes.FILECHOOSE : routes.UPLOADING }>
             Suivant&nbsp;&nbsp;<i className="fa fa-arrow-right fa-2x" />
           </Link>
         </div>

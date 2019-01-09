@@ -2,5 +2,6 @@
   "HOME": "/",
   "COUNTER": "/counter",
   "PARAMETERS": "/parameters",
-  "FILECHOOSE": "/filechoose"
+  "FILECHOOSE": "/filechoose",
+  "UPLOADING": "/uploading"
 }
