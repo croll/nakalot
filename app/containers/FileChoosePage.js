@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import LabeXLS from '../utils/labexls';
+
 const { dialog } = require('electron').remote;
 
 
@@ -32,16 +34,23 @@ class FileChoosePage extends Component {
         "openFile",
       ],
       filters: [
-        { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+        { name: 'tableurs', extensions: ['xls', 'xlsx', 'xlsm', 'xlsb', 'ods', 'fods', 'csv'] },
         { name: 'All Files', extensions: ['*'] },
       ]
     }, (filePaths) => {
       if (filePaths && filePaths.length > 0) {
         this.setState({
           filepath: filePaths[0],
-        })
+        });
+        this.updateFromXLS(filePaths[0]);
       }
     });
+  }
+
+  updateFromXLS = (filepath) => {
+    const labexls = new LabeXLS(filepath);
+    const infos = labexls.getInfos();
+    console.log("infos: ", infos);
   }
 
   render() {
@@ -59,6 +68,8 @@ class FileChoosePage extends Component {
             <input id='filepath' type="text" value={filepath} onChange={(e) => { this.setState({ filepath: e.target.value })}}/>
             <button onClick={() => { this.openFileChoose(); }}>Choisir...</button>
           </div>
+        </div>
+        <div>
         </div>
       </div>
     );
