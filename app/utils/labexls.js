@@ -1,6 +1,5 @@
 import XLSX from 'xlsx';
 import { remote } from 'electron';
-import { isSetAccessor } from 'typescript';
 
 const fs = remote.require('fs');
 
@@ -22,4 +21,19 @@ export default class LabeXLS {
     });
     return infos;
   }
+
+  getHeaderLetterByName = (sheet, name) => {
+    // headers are in line 2
+    const { c: columnsCount } = this.getSheetEnds(sheet);
+    for (x=1; x<columnsCount; x++) {
+    }
+
+  }
+
+  getSheetEnds = (sheet) => {
+    var range = XLSX.utils.decode_range(sheet['!ref']);
+    return range.e;
+  }
+
+
 }
