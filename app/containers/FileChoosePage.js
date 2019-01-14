@@ -10,11 +10,13 @@ import LabeXLS from '../utils/labexls';
 const { dialog } = require('electron').remote;
 
 
-import * as CounterActions from '../actions/counter';
+import * as ParametersActions from '../actions/parameters';
+import * as InstancesActions from '../actions/instances';
 
 class FileChoosePage extends Component {
   static propTypes = {
     filepath: PropTypes.string,
+    setInstancesLabexls: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -25,7 +27,8 @@ class FileChoosePage extends Component {
     super(props);
     this.state = {
       ...props,
-    }
+    };
+    console.log("constructed ...");
   }
 
   openFileChoose = () => {
@@ -49,8 +52,14 @@ class FileChoosePage extends Component {
 
   updateFromXLS = (filepath) => {
     const labexls = new LabeXLS(filepath);
+    this.props.setInstancesLabexls(labexls);
     const infos = labexls.getInfos();
     console.log("infos: ", infos);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("nextPropos: ", nextProps);
+    return true;
   }
 
   render() {
@@ -77,13 +86,14 @@ class FileChoosePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  email: state.email,
-  password: state.password,
-  handle: state.handle,
+  email: state.parameters.email,
+  password: state.parameters.password,
+  apikey: state.parameters.apikey,
+  labexls: state.instances.labexls,
 });
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(CounterActions, dispatch);
+  return bindActionCreators({ ...ParametersActions, ...InstancesActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FileChoosePage);
