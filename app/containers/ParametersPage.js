@@ -5,19 +5,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as CounterActions from '../actions/counter';
+import * as ParametersActions from '../actions/parameters';
+import * as InstancesActions from '../actions/instances';
 
 class ParametersPage extends Component {
   static propTypes = {
     email: PropTypes.string,
     password: PropTypes.string,
-    handle: PropTypes.string,
+    apikey: PropTypes.string,
+
+    setParametersEmail: PropTypes.func,
+    setParametersPassword: PropTypes.func,
+    setParametersApiKey: PropTypes.func,
   };
 
   static defaultProps = {
     email: '',
     password: '',
-    handle: '',
+    apikey: '',
   }
 
   constructor(props) {
@@ -31,7 +36,7 @@ class ParametersPage extends Component {
     const {
       email,
       password,
-      handle,
+      apikey,
     } = this.state;
     return (
       <div className="Parameters">
@@ -47,9 +52,9 @@ class ParametersPage extends Component {
             <label htmlFor="password">Mot de passe :</label>
             <input id="password" name="password" type="password" value={password} onChange={(e) => { this.setState({ password: e.target.value })}}/>
           </div>
-          <div className="handle">
-            <label htmlFor="handle">Handle :</label>
-            <input id="handle" name="handle" type="text" value={handle} onChange={(e) => { this.setState({ handle: e.target.value })}}/>
+          <div className="apikey">
+            <label htmlFor="apikey">Nakala API Key :</label>
+            <input id="apikey" name="apikey" type="text" value={apikey} onChange={(e) => { this.setState({ apikey: e.target.value })}}/>
           </div>
         </div>
       </div>
@@ -60,11 +65,11 @@ class ParametersPage extends Component {
 const mapStateToProps = state => ({
   email: state.email,
   password: state.password,
-  handle: state.handle,
+  apikey: state.apikey,
 });
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(CounterActions, dispatch);
+  return bindActionCreators({ ...ParametersActions, ...InstancesActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ParametersPage);
