@@ -22,17 +22,53 @@ export default class LabeXLS {
     return infos;
   }
 
-  getHeaderLetterByName = (sheet, name) => {
-    // headers are in line 2
+  getHeaderColumnByName = (sheet, name) => {
     const { c: columnsCount } = this.getSheetEnds(sheet);
-    for (x=1; x<columnsCount; x++) {
+    for (let c=0; c<columnsCount; c++) {
+      const cellAdress = XLSX.utils.encode_cell({c, r: 1});
+      if (typeof(sheet[cellAdress]) === 'object') {
+        if (name.localeCompare(sheet[cellAdress].v) === 0) {
+          return c;
+        }
+      }
     }
+    return undefined;
+  }
 
+  getValue = (sheet, c, r) => {
+    const obj = sheet[XLSX.utils.encode_cell({r, c})];
+    if (obj !== undefined) {
+      if (obj.v !== undefined) {
+        return obj.v;
+      }
+    }
+    return undefined;
   }
 
   getSheetEnds = (sheet) => {
     var range = XLSX.utils.decode_range(sheet['!ref']);
     return range.e;
+  }
+
+  getHeaderByNum = (sheet, c) => {
+    const obj = sheet[XLSX.utils.encode_cell({c, r: 1})];
+    if (obj) return obj.v;
+    else return undefined;
+  }
+
+  convertRowToCSV = (sheet, rowNum) => {
+    let csvArray=[];
+    const { c: columnsCount } = this.getSheetEnds(sheet);
+    for (let c=4; c<columnsCount; c++) {
+      const header = this.getHeaderByNum(sheet, c);
+      const valueObj = sheet[XLSX.utils.encode_cell({c, r: rowNum})];
+      if (header && valueObj) {
+        csvArray.push([ header, valueObj.v]);
+      }
+    }
+
+    const csvSheet = XLSX.utils.aoa_to_sheet(csvArray);
+    return XLSX.utils.sheet_to_csv(csvSheet);
   }
 
 
