@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import * as CounterActions from '../actions/counter';
 
 import NakalaQL from '../utils/nakalaql';
+import NakalaREST from '../utils/nakalarest';
 
 class UploadingPage extends Component {
   static propTypes = {
@@ -32,6 +33,7 @@ class UploadingPage extends Component {
     }
     this.nakalaql = new NakalaQL('11280/47c113f5');
     this.uploadTabs();
+    //console.log("NakalaREST : ", NakalaREST);
   }
 
   render() {
@@ -61,7 +63,7 @@ class UploadingPage extends Component {
     const colStatusNum = 0;
     const colHandleNum = 1;
     const colCollectionNum = labexls.getHeaderColumnByName(sheet, 'Niveau');
-    
+
     let collectionHandleName = labexls.getValue(sheet, colCollectionNum, linenum);
     if (typeof(collectionHandleName) === 'string') {
       collectionHandleName = collectionHandleName.trim();
@@ -70,8 +72,10 @@ class UploadingPage extends Component {
 
       // build csv
       const csv = labexls.convertRowToCSV(sheet, linenum);
+      //console.log("csv: ", csv);
 
-      console.log("csv: ", csv);
+      NakalaREST.upload('/usr/lib/WebKitPluginProcess2', csv);
+
     } else {
     }
   }
