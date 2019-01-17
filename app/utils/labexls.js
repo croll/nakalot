@@ -1,7 +1,8 @@
 import XLSX from 'xlsx';
-import { remote } from 'electron';
+//import { remote } from 'electron';
 
-const fs = remote.require('fs');
+//const fs = remote.require('fs');
+const fs = require('fs');
 
 export default class LabeXLS {
   constructor(filepath) {
