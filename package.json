@@ -56,8 +56,8 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "Nakalot",
+    "appId": "fr.croll.labexmed.Nakalot",
     "files": [
       "app/dist/",
       "app/app.html",
