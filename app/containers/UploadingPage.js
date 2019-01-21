@@ -32,6 +32,7 @@ class UploadingPage extends Component {
       ...props,
     }
     this.nakalaql = new NakalaQL('11280/47c113f5');
+    this.nakalarest = new NakalaREST();
     this.uploadTabs();
     //console.log("NakalaREST : ", NakalaREST);
   }
@@ -74,7 +75,7 @@ class UploadingPage extends Component {
       const csv = labexls.convertRowToCSV(sheet, linenum);
       //console.log("csv: ", csv);
 
-      NakalaREST.upload('/usr/lib/WebKitPluginProcess2', csv);
+      this.nakalarest.upload('/usr/lib/WebKitPluginProcess2', csv);
 
     } else {
     }
@@ -86,6 +87,8 @@ class UploadingPage extends Component {
     console.log("rows : ", rowsCount);
     for (let linenum=2; linenum<rowsCount; linenum++) {
       await this.uploadTabLine(sheet, linenum);
+      console.log("BREAK AT LINE 1 FOR DEBUG"); break;
+
     }
   }
 

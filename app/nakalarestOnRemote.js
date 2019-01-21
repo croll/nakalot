@@ -1,14 +1,9 @@
 const http = require('http');
+const archiver = require('archiver');
 
 
-//module.exports = function() { console.log("plop")};
-module.exports.plop = function() { console.log("plop")};
-
-module.exports.upload = function(filepath, csv) {
+module.exports.upload = (filepath, csv) => {
   try {
-    console.log("upload");
-    console.log("http: ", http);
-    console.log("http.request: ", http.request);
 
     const req = http.request({
       host: '127.0.0.1',
@@ -17,8 +12,6 @@ module.exports.upload = function(filepath, csv) {
       method: 'POST',
     });
 
-    console.log("hop !");
-    /*
 
     req.on('close', () => {
       console.log("req closed");
@@ -33,9 +26,6 @@ module.exports.upload = function(filepath, csv) {
       throw err;
     });
 
-
-
-    const archiver = require('archiver');
     const archive = archiver('zip', {
       zlib: { level: 0 } // Sets the compression level.
     });
@@ -59,14 +49,15 @@ module.exports.upload = function(filepath, csv) {
 
     archive.pipe(req);
 
-    for (let i=0; i<1000; i+=1) {
+    for (let i=0; i<2; i+=1) {
       // append a file from string
       //archive.append('string cheese '+i+' !!!', { name: 'file'+i+'.txt' });
       archive.file('/usr/lib/WebKitPluginProcess2', { name: 'file'+i+'.bin' });
+      //archive.file('/bin/ls', { name: 'file'+i+'.bin' });
     }
 
     archive.finalize();
-    */
+
   } catch (e) {
     console.log("EXCEPTION : ", e);
   }
