@@ -1,15 +1,24 @@
-const http = require('http');
+const https = require('https');
 const archiver = require('archiver');
+const querystring = require('querystring');
 
 
-module.exports.upload = (filepath, csv) => {
+module.exports.upload = (filepath, csv, params) => {
   try {
 
-    const req = http.request({
-      host: '127.0.0.1',
-      path: '/test',
-      port: 8080,
+    const gets = {
+      email: params.email,
+      key: params.key,
+    }
+
+    const req = https.request({
+      host: 'www.nakala.fr',
+      path: '/nakala/api/v1/data?' + querystring.stringify(gets),
+      port: 443,
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/octet-stream',
+      },
     });
 
 
