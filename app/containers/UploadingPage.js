@@ -16,19 +16,21 @@ const path = remote.require('path');
 
 class UploadingPage extends Component {
   static propTypes = {
-    email: PropTypes.string,
-    password: PropTypes.string,
-    apikey: PropTypes.string,
-    xlsfilepath: PropTypes.string,
+    email: PropTypes.string.isRequired,
+    apikey: PropTypes.string.isRequired,
+    userhandle: PropTypes.string.isRequired,
+    xlsfilepath: PropTypes.string.isRequired,
     labexls: PropTypes.object.isRequired,
   };
 
+  /*
   static defaultProps = {
     email: '',
     password: '',
     apikey: '',
     xlsfilepath: '',
   };
+  */
 
   constructor(props) {
     super(props);
@@ -36,10 +38,7 @@ class UploadingPage extends Component {
       ...props,
     }
     this.dirpath = path.dirname(props.xlsfilepath);
-    console.log("xlsfilepath: ", props.xlsfilepath);
-    console.log("dirpath: ", this.dirpath);
-    this.nakalaql = new NakalaQL('11280/47c113f5');
-    console.log("construct with : ", props.email, props.apikey);
+    this.nakalaql = new NakalaQL(props.userhandle);
     this.nakalarest = new NakalaREST(props.email, props.apikey);
     this.uploadTabs();
     //console.log("NakalaREST : ", NakalaREST);
@@ -125,6 +124,7 @@ const mapStateToProps = state => ({
   email: state.parameters.email,
   password: state.parameters.password,
   apikey: state.parameters.apikey,
+  userhandle: state.parameters.userhandle,
   labexls: state.instances.labexls,
   xlsfilepath: state.transients.xlsfilepath,
 });
