@@ -26,10 +26,30 @@ class UploadingPage extends Component {
   constructor(props) {
     super(props);
 
+    this.state={
+      todoCount: 0,
+      doneCount: 0,
+    }
+
     this.dirpath = path.dirname(props.xlsfilepath);
     this.nakalaql = new NakalaQL(props.userhandle);
     this.nakalarest = new NakalaREST(props.email, props.apikey);
-    this.uploadTabs();
+    this.simu = {
+      count: 0,
+    }
+    this.uploadTabs(this.simu)
+      .then(() => {
+        this.setState({
+          todoCount: this.simu.count,
+          doneCount: 0,
+        });
+        console.log("file count to upload: ", this.simu.count);
+
+        return this.uploadTabs(false);
+      })
+      .catch(err => {
+        console.log("can't get total count : ", err);
+      });
   }
 
   render() {
@@ -40,18 +60,24 @@ class UploadingPage extends Component {
       apikey,
     } = this.props;
 
+    const {
+      todoCount,
+      doneCount,
+    } = this.state;
+
     return (
       <div className="Uploading">
         <h2 className="stage">
           3. Envoi...
         </h2>
-        <div className="form">
+        <div className="progress">
+          <progress value={doneCount} max={todoCount}></progress>
         </div>
       </div>
     );
   }
 
-  uploadTabLine = async (sheet, linenum) => {
+  uploadTabLine = async (simu, sheet, linenum) => {
     const labexls = this.props.labexls;
     const email = this.props.email;
 
@@ -59,50 +85,64 @@ class UploadingPage extends Component {
     const colHandleNum = 1;
 
     let status = labexls.getValue(sheet, colStatusNum, linenum);
-    console.log("status: ", status);
+    //console.log("status: ", status);
 
     if (status === "UPDATE") {
-      let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
-      let fileName = labexls.getValueOfColName(sheet, 'Nom du document', linenum);
-      let csv=[];
-      //csv.push(['nkl:accessEmail', email ]);
+      if (simu) {
+        simu.count++;
+      } else {
+        try {
+          let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
+          let fileName = labexls.getValueOfColName(sheet, 'Nom du document', linenum);
+          let csv=[];
+          //csv.push(['nkl:accessEmail', email ]);
 
-      if (typeof(collectionHandleName) === 'string') {
-        collectionHandleName = collectionHandleName.trim();
-        let handle = await this.nakalaql.getCollectionHandle(collectionHandleName);
-        if (handle) {
-          let res = handle.match(/[0-9a-f]+\/[0-9a-f]+$/);
-          if (res && res.length === 1) {
-            handle = res[0];
-            csv.push(['nkl:inCollection', handle ]);
+          if (typeof(collectionHandleName) === 'string') {
+            collectionHandleName = collectionHandleName.trim();
+            let handle = await this.nakalaql.getCollectionHandle(collectionHandleName);
+            if (handle) {
+              let res = handle.match(/[0-9a-f]+\/[0-9a-f]+$/);
+              if (res && res.length === 1) {
+                handle = res[0];
+                csv.push(['nkl:inCollection', handle ]);
+              }
+            } else {
+
+            }
           }
-        }
 
+          csv = labexls.convertRowToCSV(sheet, linenum, csv);
+          await this.nakalarest.upload(this.dirpath+path.sep+fileName, fileName, csv);
+        } catch (err) {
+          console.error(err);
+        } finally {
+          this.setState({
+            doneCount: this.state.doneCount + 1,
+          });
+        }
       }
 
-      csv = labexls.convertRowToCSV(sheet, linenum, csv);
-
-      this.nakalarest.upload(this.dirpath+path.sep+fileName, fileName, csv);
     }
   }
 
-  uploadTab = async (sheet) => {
+  uploadTab = async (simu, sheet) => {
     const labexls = this.props.labexls;
     const { r: rowsCount } = labexls.getSheetEnds(sheet);
     console.log("rows : ", rowsCount);
     for (let linenum=2; linenum<rowsCount; linenum++) {
-      await this.uploadTabLine(sheet, linenum);
-      console.log("BREAK AT LINE 1 FOR DEBUG"); break;
+      //console.log("linenum: ", linenum, "/", rowsCount);
+      await this.uploadTabLine(simu, sheet, linenum);
+      //console.log("BREAK AT LINE 1 FOR DEBUG"); break;
     }
   }
 
-  uploadTabs = async () => {
+  uploadTabs = async (simu) => {
     const labexls = this.props.labexls;
 
     for (const i_sheet in labexls.wb.Sheets) {
       const sheet = labexls.wb.Sheets[i_sheet];
-      await this.uploadTab(sheet);
-      console.log("BREAK AT TAB 1 FOR DEBUG"); break;
+      await this.uploadTab(simu, sheet);
+      //console.log("BREAK AT TAB 1 FOR DEBUG"); break;
     }
   }
 

@@ -53,6 +53,7 @@ export default class LabeXLS {
   }
 
   getSheetEnds = (sheet) => {
+    console.log("!ref: ", sheet['!ref']);
     var range = XLSX.utils.decode_range(sheet['!ref']);
     return range.e;
   }
