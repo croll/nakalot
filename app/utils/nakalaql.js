@@ -28,6 +28,7 @@ export default class NakalaQL {
   }
 
   getMyCollections = () => {
+    const nakalaUserHandle = this.nakalaUserHandle;
     return new Promise((resolve, reject) => {
       if (this.cachedCollections !== null) {
         resolve(this.cachedCollections);
@@ -37,7 +38,7 @@ export default class NakalaQL {
       const q = `
         SELECT ?collection ?nomCollection
         WHERE {
-          ?scheme dcterms:creator <http://www.nakala.fr/account/11280/47c113f5> .
+          ?scheme dcterms:creator <http://www.nakala.fr/account/${nakalaUserHandle}> .
           ?collection skos:inScheme ?scheme .?collection skos:prefLabel ?nomCollection .
         }
       `;

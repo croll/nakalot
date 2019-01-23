@@ -10,12 +10,16 @@ import * as CounterActions from '../actions/counter';
 import NakalaQL from '../utils/nakalaql';
 import NakalaREST from '../utils/nakalarest';
 
+import { remote } from 'electron';
+const path = remote.require('path');
+
+
 class UploadingPage extends Component {
   static propTypes = {
     email: PropTypes.string,
     password: PropTypes.string,
     apikey: PropTypes.string,
-    filepath: PropTypes.string,
+    xlsfilepath: PropTypes.string,
     labexls: PropTypes.object.isRequired,
   };
 
@@ -23,7 +27,7 @@ class UploadingPage extends Component {
     email: '',
     password: '',
     apikey: '',
-    filepath: '',
+    xlsfilepath: '',
   };
 
   constructor(props) {
@@ -31,8 +35,12 @@ class UploadingPage extends Component {
     this.state = {
       ...props,
     }
+    this.dirpath = path.dirname(props.xlsfilepath);
+    console.log("xlsfilepath: ", props.xlsfilepath);
+    console.log("dirpath: ", this.dirpath);
     this.nakalaql = new NakalaQL('11280/47c113f5');
-    this.nakalarest = new NakalaREST();
+    console.log("construct with : ", props.email, props.apikey);
+    this.nakalarest = new NakalaREST(props.email, props.apikey);
     this.uploadTabs();
     //console.log("NakalaREST : ", NakalaREST);
   }
@@ -60,25 +68,34 @@ class UploadingPage extends Component {
 
   uploadTabLine = async (sheet, linenum) => {
     const labexls = this.props.labexls;
+    const email = this.props.email;
 
     const colStatusNum = 0;
     const colHandleNum = 1;
-    const colCollectionNum = labexls.getHeaderColumnByName(sheet, 'Niveau');
 
-    let collectionHandleName = labexls.getValue(sheet, colCollectionNum, linenum);
+    let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
+    let fileName = labexls.getValueOfColName(sheet, 'Nom du document', linenum);
+    let csv=[];
+    //csv.push(['nkl:accessEmail', email ]);
+
     if (typeof(collectionHandleName) === 'string') {
       collectionHandleName = collectionHandleName.trim();
-      const handle = await this.nakalaql.getCollectionHandle(collectionHandleName);
-      console.log("got handle : ", colCollectionNum, collectionHandleName, "=>", handle);
+      let handle = await this.nakalaql.getCollectionHandle(collectionHandleName);
+      if (handle) {
+        let res = handle.match(/[0-9a-f]+\/[0-9a-f]+$/);
+        if (res && res.length === 1) {
+          handle = res[0];
+        }
+      }
 
-      // build csv
-      const csv = labexls.convertRowToCSV(sheet, linenum);
-      //console.log("csv: ", csv);
-
-      this.nakalarest.upload('/usr/lib/WebKitPluginProcess2', csv);
-
-    } else {
+      csv.push(['nkl:inCollection', handle ]);
     }
+
+    csv = labexls.convertRowToCSV(sheet, linenum, csv);
+
+    console.log("upload ...");
+    this.nakalarest.upload(this.dirpath+path.sep+fileName, fileName, csv);
+
   }
 
   uploadTab = async (sheet) => {
@@ -107,8 +124,9 @@ class UploadingPage extends Component {
 const mapStateToProps = state => ({
   email: state.parameters.email,
   password: state.parameters.password,
-  apikey: state.parameters.handle,
+  apikey: state.parameters.apikey,
   labexls: state.instances.labexls,
+  xlsfilepath: state.transients.xlsfilepath,
 });
 
 function mapDispatchToProps(dispatch) {

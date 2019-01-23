@@ -12,26 +12,24 @@ const { dialog } = require('electron').remote;
 
 import * as ParametersActions from '../actions/parameters';
 import * as InstancesActions from '../actions/instances';
+import * as TransientsActions from '../actions/transients';
 
 class FileChoosePage extends Component {
   static propTypes = {
-    filepath: PropTypes.string,
+    xlsfilepath: PropTypes.string,
     setInstancesLabexls: PropTypes.func.isRequired,
+    setTransientsXLSFilepath: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    filepath: '',
+    xlsfilepath: '',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      ...props,
-    };
-    console.log("constructed ...");
-  }
-
   openFileChoose = () => {
+    const {
+      setTransientsXLSFilepath,
+    } = this.props;
+
     dialog.showOpenDialog({
       properties: [
         "openFile",
@@ -42,9 +40,7 @@ class FileChoosePage extends Component {
       ]
     }, (filePaths) => {
       if (filePaths && filePaths.length > 0) {
-        this.setState({
-          filepath: filePaths[0],
-        });
+        setTransientsXLSFilepath(filePaths[0]);
         this.updateFromXLS(filePaths[0]);
       }
     });
@@ -64,8 +60,9 @@ class FileChoosePage extends Component {
 
   render() {
     const {
-      filepath,
-    } = this.state;
+      xlsfilepath,
+      setTransientsXLSFilepath,
+    } = this.props;
     return (
       <div className="FileChoose">
         <h2 className="stage">
@@ -74,7 +71,7 @@ class FileChoosePage extends Component {
         <div className="form">
           <div className="filepath">
             <label htmlFor="filepath">Fichier :</label>
-            <input id='filepath' type="text" value={filepath} onChange={(e) => { this.setState({ filepath: e.target.value })}}/>
+            <input id='filepath' type="text" value={xlsfilepath} onChange={(e) => { setTransientsXLSFilepath(e.target.value )}}/>
             <button onClick={() => { this.openFileChoose(); }}>Choisir...</button>
           </div>
         </div>
@@ -90,10 +87,11 @@ const mapStateToProps = state => ({
   password: state.parameters.password,
   apikey: state.parameters.apikey,
   labexls: state.instances.labexls,
+  xlsfilepath: state.transients.xlsfilepath,
 });
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ParametersActions, ...InstancesActions}, dispatch);
+  return bindActionCreators({ ...ParametersActions, ...InstancesActions, ...TransientsActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FileChoosePage);

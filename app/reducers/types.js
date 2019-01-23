@@ -1,12 +1,22 @@
 import type { Dispatch as ReduxDispatch, Store as ReduxStore } from 'redux';
 
+
+
+export type Parameters = {
+  +email: string,
+  +password: string,
+  +apikey: string
+};
+
 export type counterStateType = {
-  +counter: number
+  +counter: number,
+  +parameters: Parameters
 };
 
 export type Action = {
   +type: string
 };
+
 
 export type GetState = () => counterStateType;
 

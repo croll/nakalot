@@ -46,6 +46,12 @@ export default class LabeXLS {
     return undefined;
   }
 
+  getValueOfColName = (sheet, colname, r) => {
+    const c = this.getHeaderColumnByName(sheet, colname);
+    if (c === undefined) return undefined;
+    return this.getValue(sheet, c, r);
+  }
+
   getSheetEnds = (sheet) => {
     var range = XLSX.utils.decode_range(sheet['!ref']);
     return range.e;
@@ -57,14 +63,17 @@ export default class LabeXLS {
     else return undefined;
   }
 
-  convertRowToCSV = (sheet, rowNum) => {
+  convertRowToCSV = (sheet, rowNum, moreParams = []) => {
     let csvArray=[];
+    moreParams.forEach(param => {
+      csvArray.push([...param]);
+    });
     const { c: columnsCount } = this.getSheetEnds(sheet);
     for (let c=4; c<columnsCount; c++) {
       const header = this.getHeaderByNum(sheet, c);
       const valueObj = sheet[XLSX.utils.encode_cell({c, r: rowNum})];
       if (header && valueObj) {
-        csvArray.push([ header, valueObj.v]);
+        csvArray.push([ (header+'').toLowerCase(), valueObj.v]);
       }
     }
 

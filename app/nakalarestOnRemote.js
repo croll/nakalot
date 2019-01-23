@@ -3,73 +3,99 @@ const archiver = require('archiver');
 const querystring = require('querystring');
 
 
-module.exports.upload = (filepath, csv, params) => {
-  try {
+module.exports.upload = (filepath, filename, csv, params) => {
+  return new Promise((resolve, reject) => {
+    try {
 
-    const gets = {
-      email: params.email,
-      key: params.key,
-    }
+      console.log("uploading : ", filepath, csv);
 
-    const req = https.request({
-      host: 'www.nakala.fr',
-      path: '/nakala/api/v1/data?' + querystring.stringify(gets),
-      port: 443,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/octet-stream',
-      },
-    });
-
-
-    req.on('close', () => {
-      console.log("req closed");
-    });
-
-    req.on('end', () => {
-      console.log("req end");
-    });
-
-    req.on('error', (err) => {
-      console.log("error: ", err);
-      throw err;
-    });
-
-    const archive = archiver('zip', {
-      zlib: { level: 0 } // Sets the compression level.
-    });
-
-    archive.on('warning', err => {
-      if (err.code === 'ENOENT') {
-        console.warn("archive warning: ", err);
-        // log warning
-      } else {
-        console.error("archive warning error: ", err);
-        // throw error
-        throw err;
+      const gets = {
+        email: params.email,
+        key: params.apikey,
       }
-    });
 
-    // good practice to catch this error explicitly
-    archive.on('error', err => {
-      console.error("archive error: ", err);
-      throw err;
-    });
+      const path = '/nakala/api/v1/data?' + querystring.stringify(gets);
+      console.log("path: ", path);
 
-    archive.pipe(req);
+      const req = https.request({
+        host: 'www.nakala.fr',
+        path: path,
+        port: 443,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/octet-stream',
+        },
+      }, (res) => {
+        res.on('data', (data) => {
+          console.log("res data string: ", data.toString());
+          console.log("res data string toJson: ", JSON.parse(data.toString()));
+          resolve(JSON.parse(data.toString()));
+        });
+      });
 
-    for (let i=0; i<2; i+=1) {
-      // append a file from string
-      //archive.append('string cheese '+i+' !!!', { name: 'file'+i+'.txt' });
-      archive.file('/usr/lib/WebKitPluginProcess2', { name: 'file'+i+'.bin' });
-      //archive.file('/bin/ls', { name: 'file'+i+'.bin' });
+
+      req.on('close', () => {
+        console.log("req closed");
+      });
+
+      req.on('end', () => {
+        console.log("req end");
+      });
+
+      req.on('error', (err) => {
+        console.log("error: ", err);
+        throw err;
+      });
+
+      req.on('data', (data) => { // should not happen
+        console.log("req data: ", data);
+      });
+
+      req.on('progress', (progress) => {
+        console.log("progress:  ", progress);
+      });
+
+      const archive = archiver('zip', {
+        zlib: { level: 3 } // Sets the compression level.
+      });
+
+      archive.on('warning', err => {
+        if (err.code === 'ENOENT') {
+          console.warn("archive warning: ", err);
+          reject(err);
+          // log warning
+        } else {
+          console.error("archive warning error: ", err);
+          // throw error
+          throw err;
+        }
+      });
+
+      // good practice to catch this error explicitly
+      archive.on('error', err => {
+        console.error("archive error: ", err);
+        throw err;
+      });
+
+      archive.pipe(req);
+
+
+      console.log("adding : ", filepath);
+      archive.file(filepath, { name: filename });
+      archive.append(csv, { name: 'nakala.csv' });
+
+      //archive.file('/home/nicolas/croll/clients/labexmed/nakalot/nakala/nakala-console/input/Nakala-Documentation-API.csv', { name: 'Nakala-Documentation-API.csv'});
+      //archive.file('/home/nicolas/croll/clients/labexmed/nakalot/nakala/nakala-console/input/Nakala-Documentation-API.docx', { name: 'Nakala-Documentation-API.docx'});
+
+
+      archive.finalize();
+
+    } catch (e) {
+      console.log("EXCEPTION : ", e);
+      reject(e);
     }
 
-    archive.finalize();
-
-  } catch (e) {
-    console.log("EXCEPTION : ", e);
-  }
+  });
 
 };
 

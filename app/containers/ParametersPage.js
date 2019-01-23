@@ -19,17 +19,8 @@ class ParametersPage extends Component {
     setParametersApiKey: PropTypes.func,
   };
 
-  static defaultProps = {
-    email: '',
-    password: '',
-    apikey: '',
-  }
-
   constructor(props) {
     super(props);
-    this.state = {
-      ...props,
-    }
   }
 
   render() {
@@ -37,7 +28,12 @@ class ParametersPage extends Component {
       email,
       password,
       apikey,
-    } = this.state;
+
+      setParametersEmail,
+      setParametersPassword,
+      setParametersApiKey,
+    } = this.props;
+
     return (
       <div className="Parameters">
         <h2 className="stage">
@@ -46,15 +42,15 @@ class ParametersPage extends Component {
         <div className="form">
           <div className="email">
             <label htmlFor="email">Email :</label>
-            <input id='email' type="text" value={email} onChange={(e) => { this.setState({ email: e.target.value })}}/>
+            <input id='email' type="text" value={email} onChange={(e) => { setParametersEmail(e.target.value)}}/>
           </div>
           <div className="password">
             <label htmlFor="password">Mot de passe :</label>
-            <input id="password" name="password" type="password" value={password} onChange={(e) => { this.setState({ password: e.target.value })}}/>
+            <input id="password" name="password" type="password" value={password} onChange={(e) => { setParametersPassword(e.target.value)}}/>
           </div>
           <div className="apikey">
             <label htmlFor="apikey">Nakala API Key :</label>
-            <input id="apikey" name="apikey" type="text" value={apikey} onChange={(e) => { this.setState({ apikey: e.target.value })}}/>
+            <input id="apikey" name="apikey" type="text" value={apikey} onChange={(e) => { setParametersApiKey(e.target.value )}}/>
           </div>
         </div>
       </div>
@@ -63,9 +59,9 @@ class ParametersPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  email: state.email,
-  password: state.password,
-  apikey: state.apikey,
+  email: state.parameters.email,
+  password: state.parameters.password,
+  apikey: state.parameters.apikey,
 });
 
 function mapDispatchToProps(dispatch) {
