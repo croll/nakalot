@@ -81,7 +81,7 @@ a:hover {
 
 .Menu.onHome .Menu-title {
   top: 0.5em;
-  left: 0em;
+  left: 0.15em;
   font-size: 5em;
   font-weight: bold;
 }
@@ -167,6 +167,11 @@ a.Start {
   font-size: 1.4rem;
 }
 
+/* margins */
+.Home, .Parameters, .FileChoose, .Uploading {
+  margin-left: 1em;
+  margin-right: 1em;
+}
 
 /* Parameters */
 
@@ -180,9 +185,13 @@ a.Start {
 
 .Parameters .form label {
   display: inline-block;
-  min-width: 9em;
+  min-width: 11em;
 }
 
 .Parameters .form input {
-  min-width: 20em;
+  min-width: 33em;
+}
+
+.FileChoose input#filepath {
+  min-width: 38em;
 }
