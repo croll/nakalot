@@ -80,6 +80,8 @@ class UploadingPage extends Component {
       this.saveLog(flogname);
       labexls.save(fresultname);
     }
+    this.props.setTransientsBack(routes.FILECHOOSE);
+    this.props.setTransientsNext(routes.HOME);
   }
 
   saveLog = (fname) => {
@@ -161,7 +163,7 @@ class UploadingPage extends Component {
     let status = labexls.getValue(sheet, colStatusNum, linenum);
     //console.log("status: ", status);
 
-    if (status === "UPDATE") {
+    if (status === "UPLOAD") {
       if (simu) {
         simu.count++;
       } else {
