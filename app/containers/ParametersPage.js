@@ -7,6 +7,9 @@ import { bindActionCreators } from 'redux';
 
 import * as ParametersActions from '../actions/parameters';
 import * as InstancesActions from '../actions/instances';
+import * as TransientsActions from '../actions/transients';
+
+import routes from '../constants/routes';
 
 class ParametersPage extends Component {
   static propTypes = {
@@ -16,13 +19,16 @@ class ParametersPage extends Component {
     userhandle: PropTypes.string,
 
     setParametersEmail: PropTypes.func,
-    setParametersPassword: PropTypes.func,
     setParametersApiKey: PropTypes.func,
     setParametersUserHandle: PropTypes.func,
+    setTransientsBack: PropTypes.func.isRequired,
+    setTransientsNext: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+    this.props.setTransientsBack(routes.HOME);
+    this.props.setTransientsNext(routes.FILECHOOSE);
   }
 
   render() {
@@ -68,7 +74,7 @@ const mapStateToProps = state => ({
 });
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ParametersActions, ...InstancesActions}, dispatch);
+  return bindActionCreators({ ...ParametersActions, ...InstancesActions, ...TransientsActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ParametersPage);

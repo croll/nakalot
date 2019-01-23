@@ -13,17 +13,26 @@ const { dialog } = require('electron').remote;
 import * as ParametersActions from '../actions/parameters';
 import * as InstancesActions from '../actions/instances';
 import * as TransientsActions from '../actions/transients';
+import routes from '../constants/routes';
 
 class FileChoosePage extends Component {
   static propTypes = {
     xlsfilepath: PropTypes.string,
     setInstancesLabexls: PropTypes.func.isRequired,
     setTransientsXLSFilepath: PropTypes.func.isRequired,
+    setTransientsBack: PropTypes.func.isRequired,
+    setTransientsNext: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     xlsfilepath: '',
   };
+
+  constructor(props) {
+    super(props);
+    this.props.setTransientsBack(routes.PARAMETERS);
+    this.props.setTransientsNext(routes.UPLOADING);
+  }
 
   openFileChoose = () => {
     const {
