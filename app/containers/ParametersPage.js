@@ -14,7 +14,6 @@ import routes from '../constants/routes';
 class ParametersPage extends Component {
   static propTypes = {
     email: PropTypes.string,
-    password: PropTypes.string,
     apikey: PropTypes.string,
     userhandle: PropTypes.string,
 
@@ -27,8 +26,30 @@ class ParametersPage extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {};
     this.props.setTransientsBack(routes.HOME);
-    this.props.setTransientsNext(routes.FILECHOOSE);
+    ParametersPage.checkForm(props);
+    //this.props.setTransientsNext(routes.FILECHOOSE);
+  }
+
+  static checkForm(props) {
+    const {
+      email, apikey, userhandle, setTransientsNext
+    } = props;
+
+    if (
+      (typeof(email) === 'string' && email.length > 0)
+      && (typeof(apikey) === 'string' && apikey.length > 0)
+      && (typeof(userhandle) === 'string' && userhandle.length > 0)) {
+      setTransientsNext(routes.FILECHOOSE);
+    } else {
+      setTransientsNext('');
+    }
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    ParametersPage.checkForm(props);
+    return null;
   }
 
   render() {
