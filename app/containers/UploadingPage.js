@@ -166,6 +166,7 @@ class UploadingPage extends Component {
         simu.count++;
       } else {
         try {
+          let fileHandle = labexls.getValue(sheet, colHandleNum, linenum);
           let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
           let fileName = labexls.getValueOfColName(sheet, 'Nom du document', linenum);
           let csv=[];
@@ -186,7 +187,7 @@ class UploadingPage extends Component {
           }
 
           csv = labexls.convertRowToCSV(sheet, linenum, csv);
-          const res = await this.nakalarest.upload(this.dirpath+path.sep+fileName, fileName, csv);
+          const res = await this.nakalarest.upload(this.dirpath+path.sep+fileName, fileHandle, fileName, csv);
 
 
           this.addToLog([

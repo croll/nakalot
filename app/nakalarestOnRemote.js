@@ -3,7 +3,7 @@ const archiver = require('archiver');
 const querystring = require('querystring');
 
 
-module.exports.upload = (filepath, filename, csv, params) => {
+module.exports.upload = (filepath, handle, filename, csv, params) => {
   return new Promise((resolve, reject) => {
     try {
 
@@ -14,14 +14,14 @@ module.exports.upload = (filepath, filename, csv, params) => {
         key: params.apikey,
       }
 
-      const path = '/nakala/api/v1/data?' + querystring.stringify(gets);
+      const path = '/nakala/api/v1/data' + (handle ? '/'+handle : '') + '?' + querystring.stringify(gets);
       console.log("path: ", path);
 
       const req = https.request({
         host: 'www.nakala.fr',
         path: path,
         port: 443,
-        method: 'POST',
+        method: handle ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/octet-stream',
         },
