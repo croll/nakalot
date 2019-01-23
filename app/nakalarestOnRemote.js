@@ -15,13 +15,14 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
       }
 
       const path = '/nakala/api/v1/data' + (handle ? '/'+handle : '') + '?' + querystring.stringify(gets);
-      console.log("path: ", path);
+      const method = handle ? 'PUT' : 'POST'
+      console.log("path: ", path, method);
 
       const req = https.request({
         host: 'www.nakala.fr',
         path: path,
         port: 443,
-        method: handle ? 'PUT' : 'POST',
+        method: method,
         headers: {
           'Content-Type': 'application/octet-stream',
         },
