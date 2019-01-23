@@ -23,37 +23,23 @@ class UploadingPage extends Component {
     labexls: PropTypes.object.isRequired,
   };
 
-  /*
-  static defaultProps = {
-    email: '',
-    password: '',
-    apikey: '',
-    xlsfilepath: '',
-  };
-  */
-
   constructor(props) {
     super(props);
-    this.state = {
-      ...props,
-    }
+
     this.dirpath = path.dirname(props.xlsfilepath);
     this.nakalaql = new NakalaQL(props.userhandle);
     this.nakalarest = new NakalaREST(props.email, props.apikey);
     this.uploadTabs();
-    //console.log("NakalaREST : ", NakalaREST);
   }
 
   render() {
-
-
-    //nakalaql.getMyCollections();
 
     const {
       email,
       password,
       apikey,
-    } = this.state;
+    } = this.props;
+
     return (
       <div className="Uploading">
         <h2 className="stage">
