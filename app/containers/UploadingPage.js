@@ -58,29 +58,32 @@ class UploadingPage extends Component {
     const colStatusNum = 0;
     const colHandleNum = 1;
 
-    let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
-    let fileName = labexls.getValueOfColName(sheet, 'Nom du document', linenum);
-    let csv=[];
-    //csv.push(['nkl:accessEmail', email ]);
+    let status = labexls.getValue(sheet, colStatusNum, linenum);
+    console.log("status: ", status);
 
-    if (typeof(collectionHandleName) === 'string') {
-      collectionHandleName = collectionHandleName.trim();
-      let handle = await this.nakalaql.getCollectionHandle(collectionHandleName);
-      if (handle) {
-        let res = handle.match(/[0-9a-f]+\/[0-9a-f]+$/);
-        if (res && res.length === 1) {
-          handle = res[0];
+    if (status === "UPDATE") {
+      let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
+      let fileName = labexls.getValueOfColName(sheet, 'Nom du document', linenum);
+      let csv=[];
+      //csv.push(['nkl:accessEmail', email ]);
+
+      if (typeof(collectionHandleName) === 'string') {
+        collectionHandleName = collectionHandleName.trim();
+        let handle = await this.nakalaql.getCollectionHandle(collectionHandleName);
+        if (handle) {
+          let res = handle.match(/[0-9a-f]+\/[0-9a-f]+$/);
+          if (res && res.length === 1) {
+            handle = res[0];
+            csv.push(['nkl:inCollection', handle ]);
+          }
         }
+
       }
 
-      csv.push(['nkl:inCollection', handle ]);
+      csv = labexls.convertRowToCSV(sheet, linenum, csv);
+
+      this.nakalarest.upload(this.dirpath+path.sep+fileName, fileName, csv);
     }
-
-    csv = labexls.convertRowToCSV(sheet, linenum, csv);
-
-    console.log("upload ...");
-    this.nakalarest.upload(this.dirpath+path.sep+fileName, fileName, csv);
-
   }
 
   uploadTab = async (sheet) => {
@@ -90,7 +93,6 @@ class UploadingPage extends Component {
     for (let linenum=2; linenum<rowsCount; linenum++) {
       await this.uploadTabLine(sheet, linenum);
       console.log("BREAK AT LINE 1 FOR DEBUG"); break;
-
     }
   }
 
