@@ -51,10 +51,6 @@ module.exports.upload = (filepath, filename, csv, params) => {
         console.log("req data: ", data);
       });
 
-      req.on('progress', (progress) => {
-        console.log("progress:  ", progress);
-      });
-
       const archive = archiver('zip', {
         zlib: { level: 3 } // Sets the compression level.
       });
@@ -75,6 +71,10 @@ module.exports.upload = (filepath, filename, csv, params) => {
       archive.on('error', err => {
         console.error("archive error: ", err);
         throw err;
+      });
+
+      archive.on('progress', (progress) => {
+        console.log("progress:  ", progress);
       });
 
       archive.pipe(req);

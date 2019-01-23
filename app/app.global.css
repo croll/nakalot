@@ -67,6 +67,11 @@ a:hover {
   transition: left 0.5s;
 }
 
+.Menu .Menu-back.hidden {
+  left: -5em;
+}
+
+
 .Menu .Menu-title {
   position: absolute;
   top: 0;
@@ -145,7 +150,7 @@ a:hover {
 .switch-wrapper {
   position: relative;
   top: 2em;
-  height: calc(100vh - 2em);
+  height: calc(100vh - 5em);
   width: 100%;
   overflow: hidden;
 }
@@ -199,4 +204,21 @@ a.Start {
 
 .Uploading progress {
   width: 100%;
+}
+
+.Uploading .loading {
+  width: 1.1em;
+  height: 1.1em;
+  margin-left: 5em;
+}
+
+.Uploading .csvlog {
+  position: absolute;
+  left: 1em;
+  right: 1em;
+  bottom: 4em;
+  top: 7em;
+  background: rgba(255,255,255,0.2);
+  color: black;
+  overflow-y: scroll;
 }

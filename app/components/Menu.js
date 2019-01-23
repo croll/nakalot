@@ -10,7 +10,7 @@ class Menu extends Component {
     const { pathname, back, next } = this.props;
     return (
         <div className={'Menu' + (pathname == '/' ? ' onHome' : '')}>
-          <Link className='Menu-back' to={back}>
+          <Link to={back} className={back === '' ? 'Menu-back hidden' : 'Menu-back'}>
             <i className="fa fa-arrow-left fa-2x" />
           </Link>
           <div className='Menu-title'>Nakalot</div>

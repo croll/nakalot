@@ -18,6 +18,7 @@ import routes from '../constants/routes';
 class FileChoosePage extends Component {
   static propTypes = {
     xlsfilepath: PropTypes.string,
+    labexls: PropTypes.object,
     setInstancesLabexls: PropTypes.func.isRequired,
     setTransientsXLSFilepath: PropTypes.func.isRequired,
     setTransientsBack: PropTypes.func.isRequired,
@@ -30,9 +31,28 @@ class FileChoosePage extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {};
     this.props.setTransientsBack(routes.PARAMETERS);
-    this.props.setTransientsNext(routes.UPLOADING);
+    FileChoosePage.checkForm(props);
   }
+
+  static checkForm(props) {
+    const {
+      labexls, setTransientsNext
+    } = props;
+
+    if (labexls) {
+      setTransientsNext(routes.UPLOADING);
+    } else {
+      setTransientsNext('');
+    }
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    FileChoosePage.checkForm(props);
+    return null;
+  }
+
 
   openFileChoose = () => {
     const {
@@ -51,15 +71,22 @@ class FileChoosePage extends Component {
       if (filePaths && filePaths.length > 0) {
         setTransientsXLSFilepath(filePaths[0]);
         this.updateFromXLS(filePaths[0]);
+      } else {
+        setTransientsXLSFilepath('');
+        this.updateFromXLS('');
       }
     });
   }
 
   updateFromXLS = (filepath) => {
-    const labexls = new LabeXLS(filepath);
-    this.props.setInstancesLabexls(labexls);
-    const infos = labexls.getInfos();
-    console.log("infos: ", infos);
+    if (filepath !== '') {
+      const labexls = new LabeXLS(filepath);
+      this.props.setInstancesLabexls(labexls);
+      const infos = labexls.getInfos();
+      console.log("infos: ", infos);
+    } else {
+      this.props.setInstancesLabexls(null);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {

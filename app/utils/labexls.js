@@ -82,5 +82,9 @@ export default class LabeXLS {
     return XLSX.utils.sheet_to_csv(csvSheet);
   }
 
+  save = (fname) => {
+    XLSX.writeFile(this.wb, fname);
+  }
+
 
 }
