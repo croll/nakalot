@@ -5,7 +5,8 @@ import type { Dispatch as ReduxDispatch, Store as ReduxStore } from 'redux';
 export type Parameters = {
   +email: string,
   +password: string,
-  +apikey: string
+  +apikey: string,
+  +userhandle: string,
 };
 
 export type counterStateType = {

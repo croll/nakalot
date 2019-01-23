@@ -1,5 +1,5 @@
 // @flow
-import { SET_PARAMETERS_EMAIL, SET_PARAMETERS_PASSWORD, SET_PARAMETERS_APIKEY, SET_PARAMETERS_PROJECTHANDLE } from '../actions/parameters';
+import { SET_PARAMETERS_EMAIL, SET_PARAMETERS_PASSWORD, SET_PARAMETERS_APIKEY, SET_PARAMETERS_USERHANDLE } from '../actions/parameters';
 import type { Action, Parameters } from './types';
 
 const UserStore = require('electron-store');
@@ -10,7 +10,7 @@ const initialState = {
   email: userStore.get('email', ''),
   password: userStore.get('password', ''),
   apikey: userStore.get('apikey', ''),
-  projecthandle: userStore.get('11280/4123144a', ''),
+  userhandle: userStore.get('userhandle', '11280/4123144a'),
 }
 
 export default function parameters(state: Parameters = initialState, action: Action) {
@@ -30,10 +30,10 @@ export default function parameters(state: Parameters = initialState, action: Act
         ...state,
         apikey: action.value,
       };
-      case SET_PARAMETERS_PROJECTHANDLE:
+      case SET_PARAMETERS_USERHANDLE:
       return {
         ...state,
-        projecthandle: action.value,
+        userhandle: action.value,
       };
     default:
       return state;

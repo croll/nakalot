@@ -13,10 +13,12 @@ class ParametersPage extends Component {
     email: PropTypes.string,
     password: PropTypes.string,
     apikey: PropTypes.string,
+    userhandle: PropTypes.string,
 
     setParametersEmail: PropTypes.func,
     setParametersPassword: PropTypes.func,
     setParametersApiKey: PropTypes.func,
+    setParametersUserHandle: PropTypes.func,
   };
 
   constructor(props) {
@@ -26,12 +28,12 @@ class ParametersPage extends Component {
   render() {
     const {
       email,
-      password,
       apikey,
+      userhandle,
 
       setParametersEmail,
-      setParametersPassword,
       setParametersApiKey,
+      setParametersUserHandle,
     } = this.props;
 
     return (
@@ -44,13 +46,13 @@ class ParametersPage extends Component {
             <label htmlFor="email">Email :</label>
             <input id='email' type="text" value={email} onChange={(e) => { setParametersEmail(e.target.value)}}/>
           </div>
-          <div className="password">
-            <label htmlFor="password">Mot de passe :</label>
-            <input id="password" name="password" type="password" value={password} onChange={(e) => { setParametersPassword(e.target.value)}}/>
-          </div>
           <div className="apikey">
             <label htmlFor="apikey">Nakala API Key :</label>
             <input id="apikey" name="apikey" type="text" value={apikey} onChange={(e) => { setParametersApiKey(e.target.value )}}/>
+          </div>
+          <div className="userhandle">
+            <label htmlFor="userhandle">Nakala User Handle :</label>
+            <input id="userhandle" name="userhandle" type="text" value={userhandle} onChange={(e) => { setParametersUserHandle(e.target.value )}}/>
           </div>
         </div>
       </div>
@@ -62,6 +64,7 @@ const mapStateToProps = state => ({
   email: state.parameters.email,
   password: state.parameters.password,
   apikey: state.parameters.apikey,
+  userhandle: state.parameters.userhandle,
 });
 
 function mapDispatchToProps(dispatch) {

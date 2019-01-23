@@ -8,9 +8,9 @@ const userStore = new UserStore();
 export const SET_PARAMETERS_EMAIL = 'SET_PARAMETERS_EMAIL';
 export const SET_PARAMETERS_PASSWORD = 'SET_PARAMETERS_PASSWORD';
 export const SET_PARAMETERS_APIKEY = 'SET_PARAMETERS_APIKEY';
-export const SET_PARAMETERS_PROJECTHANDLE = 'SET_PARAMETERS_PROJECTHANDLE';
+export const SET_PARAMETERS_USERHANDLE = 'SET_PARAMETERS_USERHANDLE';
 
-export function setParametersEmail(value) {
+export function setParametersEmail(value: string) {
   userStore.set('email', value);
   return {
     type: SET_PARAMETERS_EMAIL,
@@ -18,7 +18,7 @@ export function setParametersEmail(value) {
   };
 }
 
-export function setParametersPassword(value) {
+export function setParametersPassword(value: string) {
   userStore.set('password', value);
   return {
     type: SET_PARAMETERS_PASSWORD,
@@ -26,7 +26,7 @@ export function setParametersPassword(value) {
   };
 }
 
-export function setParametersApiKey(value) {
+export function setParametersApiKey(value: string) {
   userStore.set('apikey', value);
   return {
     type: SET_PARAMETERS_APIKEY,
@@ -34,10 +34,10 @@ export function setParametersApiKey(value) {
   };
 }
 
-export function setParametersProjectHandle(value) {
-  userStore.set('projecthandle', value);
+export function setParametersUserHandle(value: string) {
+  userStore.set('userhandle', value);
   return {
-    type: SET_PARAMETERS_PROJECTHANDLE,
+    type: SET_PARAMETERS_USERHANDLE,
     value: value,
   };
 }
