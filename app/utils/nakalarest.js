@@ -1,5 +1,6 @@
 import { remote } from 'electron';
-const plop = remote.require('./nakalarestOnRemote');
+//const plop = remote.require('./nakalarestOnRemote');
+const plop = require('./nakalarestOnRemote');
 
 export default class NakalaREST {
   constructor(email, apikey) {

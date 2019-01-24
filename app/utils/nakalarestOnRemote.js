@@ -1,3 +1,4 @@
+const fs = require('fs');
 const https = require('https');
 const archiver = require('archiver');
 const querystring = require('querystring');
@@ -82,7 +83,9 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
 
 
       console.log("adding : ", filepath);
-      archive.file(filepath, { name: filename });
+      const fstream = fs.createReadStream(filepath);
+      archive.append(fstream, { name: filename });
+      //archive.file(filepath, { name: filename });
       archive.append(csv, { name: 'nakala.csv' });
 
       //archive.file('/home/nicolas/croll/clients/labexmed/nakalot/nakala/nakala-console/input/Nakala-Documentation-API.csv', { name: 'Nakala-Documentation-API.csv'});

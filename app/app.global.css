@@ -222,3 +222,13 @@ a.Start {
   color: black;
   overflow-y: scroll;
 }
+
+.Uploading .csvlog table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.Uploading .csvlog table td, .Uploading .csvlog table th {
+  text-align: left;
+  box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.1);
+  padding: 0.1em;
+}

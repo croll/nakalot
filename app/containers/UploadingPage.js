@@ -101,6 +101,8 @@ class UploadingPage extends Component {
         <thead>
           <tr>
             <th>date</th>
+            <th>tab</th>
+            <th>line</th>
             <th>result</th>
             <th>handle</th>
           </tr>
@@ -153,12 +155,20 @@ class UploadingPage extends Component {
     });
   }
 
-  uploadTabLine = async (simu, sheet, linenum) => {
+  uploadTabLine = async (simu, sheet, sheetname, linenum) => {
     const labexls = this.props.labexls;
     const email = this.props.email;
 
     const colStatusNum = 0;
     const colHandleNum = 1;
+
+    const logline = [
+      new Date().toLocaleString(),
+      ''+sheetname,
+      ''+linenum,
+      '',
+      '',
+    ];
 
     let status = labexls.getValue(sheet, colStatusNum, linenum);
     //console.log("status: ", status);
@@ -192,11 +202,7 @@ class UploadingPage extends Component {
           const res = await this.nakalarest.upload(this.dirpath+path.sep+fileName, fileHandle, fileName, csv);
 
 
-          this.addToLog([
-            new Date().toLocaleString(),
-            res ? (res.success ? true : res.message) : 'unknown',
-            res && res.handleId ? res.handleId : '',
-          ]);
+          logline[3] = res ? (res.success ? 'OK' : res.message) : 'unknown';
 
           sheet[XLSX.utils.encode_cell({c: colStatusNum, r: linenum})] = {
             t: 's' /* type: string */,
@@ -204,6 +210,7 @@ class UploadingPage extends Component {
           };
 
           if (res && res.success === true && res.handleId) {
+            logline[4] = ''+(res.handleId);
             sheet[XLSX.utils.encode_cell({c: colHandleNum, r: linenum})] = {
               t: 's' /* type: string */,
               v: ''+(res.handleId) /* value */,
@@ -212,12 +219,9 @@ class UploadingPage extends Component {
 
         } catch (err) {
           console.error(err);
-          this.addToLog([
-            new Date().toLocaleString(),
-            err && err.message ? err.message : ''+err,
-            'paf',
-          ]);
+          logline[3] = err && err.message ? err.message : ''+err;
         } finally {
+          this.addToLog(logline);
           this.setState({
             doneCount: this.state.doneCount + 1,
           });
@@ -227,13 +231,13 @@ class UploadingPage extends Component {
     }
   }
 
-  uploadTab = async (simu, sheet) => {
+  uploadTab = async (simu, sheet, sheetname) => {
     const labexls = this.props.labexls;
     const { r: rowsCount } = labexls.getSheetEnds(sheet);
     console.log("rows : ", rowsCount);
     for (let linenum=2; linenum<rowsCount; linenum++) {
       //console.log("linenum: ", linenum, "/", rowsCount);
-      await this.uploadTabLine(simu, sheet, linenum);
+      await this.uploadTabLine(simu, sheet, sheetname, linenum);
       //console.log("BREAK AT LINE 1 FOR DEBUG"); break;
     }
   }
@@ -243,7 +247,7 @@ class UploadingPage extends Component {
 
     for (const i_sheet in labexls.wb.Sheets) {
       const sheet = labexls.wb.Sheets[i_sheet];
-      await this.uploadTab(simu, sheet);
+      await this.uploadTab(simu, sheet, i_sheet);
       //console.log("BREAK AT TAB 1 FOR DEBUG"); break;
     }
   }
