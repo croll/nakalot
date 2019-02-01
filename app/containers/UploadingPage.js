@@ -16,6 +16,8 @@ const path = remote.require('path');
 
 import XLSX from 'xlsx';
 
+import imgLoading from '../loading.gif';
+
 function datefilename() {
   return new Date().toISOString().replace(':', '-').replace(':', '-').replace('.', '-').replace('T', '_');
 }
@@ -136,7 +138,7 @@ class UploadingPage extends Component {
       <div className="Uploading">
         <h2 className="stage">
           3. { working ? <span>Envoi...</span> : <span>Envoi terminé</span> }
-          { working && ( <img className='loading' src='loading.gif'></img> )}
+          { working && ( <img className='loading' src={imgLoading}></img> )}
         </h2>
         <div className="progress">
           <progress value={doneCount} max={todoCount}></progress>
