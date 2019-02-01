@@ -167,7 +167,7 @@ class UploadingPage extends Component {
     const logline = [
       new Date().toLocaleString(),
       ''+sheetname,
-      ''+linenum,
+      ''+(linenum+1),
       '',
       '',
     ];
@@ -184,11 +184,14 @@ class UploadingPage extends Component {
           let fileHandle = labexls.getValue(sheet, colHandleNum, linenum);
           //let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
           let collectionHandle = labexls.getValueOfColName(sheet, 'handle collection', linenum);
-          let fileName = labexls.getValueOfColName(sheet, 'Nom du document', linenum);
+          let fileName = ''+labexls.getValueOfColName(sheet, 'Nom du document', linenum);
+          fileName = fileName.trim();
           let csv=[];
           //csv.push(['nkl:accessEmail', email ]);
 
           if (collectionHandle) {
+            collectionHandle = ''+collectionHandle;
+            collectionHandle = collectionHandle.trim().toLowerCase();
             let res = collectionHandle.match(/[0-9a-f]+\/[0-9a-f]+$/);
             if (res && res.length === 1) {
               collectionHandle = res[0];
@@ -253,7 +256,7 @@ class UploadingPage extends Component {
     const labexls = this.props.labexls;
     const { r: rowsCount } = labexls.getSheetEnds(sheet);
     console.log("rows : ", rowsCount);
-    for (let linenum=2; linenum<rowsCount; linenum++) {
+    for (let linenum=2; linenum<=rowsCount; linenum++) {
       //console.log("linenum: ", linenum, "/", rowsCount);
       await this.uploadTabLine(simu, sheet, sheetname, linenum);
       //console.log("BREAK AT LINE 1 FOR DEBUG"); break;
