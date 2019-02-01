@@ -21,8 +21,8 @@ class Footer extends Component {
     return (
         <div className={'Footer' + (pathname == '/' ? ' onHome' : '')}>
           <div className='Footer-title'>
-            <a href="http://labexmed.org/">@labexmed</a>
-            , made by <a href="http://croll.fr/">CROLL</a>
+            <a target="_blank" rel="noopener noreferrer" href="http://labexmed.dev.croll.fr/">@labexmed</a>
+            , made by <a target="_blank" rel="noopener noreferrer" href="http://croll.fr/">CROLL</a>
           </div>
           { next !== '' && (
             <Link className='Footer-next' to={next}>

@@ -14,8 +14,8 @@ export default class Home extends Component<Props> {
         <div className="HomeDesc">
           Bienvenue sur l'application Nakalot.
           Cette application vous permet d'envoyer plusieurs fichiers d'un coup sur Nakala.
-          Pour plus d'information et documentation, consultez l'aide ici :
-            <a target='_blank' href='http://www.google.fr/'>http://www.google.fr/</a>
+          Pour plus d'information et documentation, consultez l'aide ici&nbsp;:&nbsp;
+          <a target="_blank" rel="noopener noreferrer" href='http://labexmed.dev.croll.fr/index.php/manuel-administrateur/nakalot/'>http://labexmed.dev.croll.fr/index.php/manuel-administrateur/nakalot/</a>
         </div>
         <Link className="Start" to={routes.PARAMETERS}>Commencer...</Link>
       </div>
