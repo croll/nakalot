@@ -220,8 +220,12 @@ class UploadingPage extends Component {
           */
 
           csv = labexls.convertRowToCSV(sheet, linenum, csv);
-          const res = await this.nakalarest.upload(uploadFile ? this.dirpath+path.sep+fileName : null, fileHandle, fileName, csv);
-
+          let res;
+          try {
+            res = await this.nakalarest.upload(uploadFile ? this.dirpath+path.sep+fileName : null, fileHandle, fileName, csv);
+          } catch (err) {
+            res = { success: false, message: ''+err };
+          }
 
           logline[3] = res ? (res.success ? 'OK' : res.message) : 'unknown';
 
