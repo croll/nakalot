@@ -1,7 +1,7 @@
 
 <div align="center">
 
-![Nakalot (mass upload to Nakala)]
+!**Nakalot** help uploading files to Nakala, using a spreadsheet definition
 
 </div>
 
