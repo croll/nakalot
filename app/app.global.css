@@ -218,7 +218,7 @@ a.Start {
   right: 1em;
   bottom: 4em;
   top: 7em;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.5);
   color: black;
   overflow-y: scroll;
 }
