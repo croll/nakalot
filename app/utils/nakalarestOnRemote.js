@@ -83,10 +83,13 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
       archive.pipe(req);
 
 
-      console.log("adding : ", filepath);
-      fstream = fs.createReadStream(filepath);
-      archive.append(fstream, { name: filename });
-      //archive.file(filepath, { name: filename });
+      if (filepath !== null) {
+        console.log("adding : ", filepath);
+        fstream = fs.createReadStream(filepath);
+        archive.append(fstream, { name: filename });
+        //archive.file(filepath, { name: filename });
+      }
+
       archive.append(csv, { name: 'nakala.csv' });
 
       archive.finalize();
