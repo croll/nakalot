@@ -1,7 +1,7 @@
 {
   "name": "nakalot",
   "productName": "Nakalot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Nakalot help uploading files to Nakala, using a spreadsheet definition",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
