@@ -31,8 +31,12 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
       }, (res) => {
         res.on('data', (data) => {
           console.log("res data string: ", data.toString());
-          console.log("res data string toJson: ", JSON.parse(data.toString()));
-          resolve(JSON.parse(data.toString()));
+          try {
+            console.log("res data string toJson: ", JSON.parse(data.toString()));
+            resolve(JSON.parse(data.toString()));
+          } catch {
+            reject(data.toString());
+          }
         });
       });
 
