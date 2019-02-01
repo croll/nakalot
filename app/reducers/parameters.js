@@ -10,7 +10,7 @@ const initialState = {
   email: userStore.get('email', ''),
   password: userStore.get('password', ''),
   apikey: userStore.get('apikey', ''),
-  userhandle: userStore.get('userhandle', '11280/4123144a'),
+  userhandle: userStore.get('userhandle', ''),
 }
 
 export default function parameters(state: Parameters = initialState, action: Action) {
