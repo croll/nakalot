@@ -47,7 +47,7 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
 
       req.on('error', (err) => {
         console.log("error: ", err);
-        throw err;
+        reject(err);
       });
 
       req.on('data', (data) => { // should not happen
@@ -66,14 +66,14 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
         } else {
           console.error("archive warning error: ", err);
           // throw error
-          throw err;
+          reject(err);
         }
       });
 
       // good practice to catch this error explicitly
       archive.on('error', err => {
         console.error("archive error: ", err);
-        throw err;
+        reject(err);
       });
 
       archive.on('progress', (progress) => {
@@ -84,8 +84,8 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
 
 
       if (filepath !== null) {
-        console.log("adding : ", filepath);
         fstream = fs.createReadStream(filepath);
+        fstream.on('error', err => reject(err));
         archive.append(fstream, { name: filename });
         //archive.file(filepath, { name: filename });
       }
@@ -113,6 +113,7 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
       resolve(r);
       return r;
     }).catch(err => {
+      console.error("YAAAAAAAAA: ", err);
       clearInterval(readedInt);
       reject(err);
     });
