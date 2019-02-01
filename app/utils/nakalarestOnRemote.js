@@ -5,7 +5,8 @@ const querystring = require('querystring');
 
 
 module.exports.upload = (filepath, handle, filename, csv, params) => {
-  return new Promise((resolve, reject) => {
+  let fstream;
+  const p=new Promise((resolve, reject) => {
     try {
 
       console.log("uploading : ", filepath, csv);
@@ -83,7 +84,7 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
 
 
       console.log("adding : ", filepath);
-      const fstream = fs.createReadStream(filepath);
+      fstream = fs.createReadStream(filepath);
       archive.append(fstream, { name: filename });
       //archive.file(filepath, { name: filename });
       archive.append(csv, { name: 'nakala.csv' });
@@ -101,5 +102,21 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
 
   });
 
+  const readedInt = setInterval(() => {
+    if (fstream) {
+      console.log("readed: ", fstream.bytesRead);
+    }
+  }, 1000);
+
+  return new Promise((resolve, reject) => {
+    p.then(r => {
+      clearInterval(readedInt);
+      resolve(r);
+      return r;
+    }).catch(err => {
+      clearInterval(readedInt);
+      reject(err);
+    });
+  });
 };
 
