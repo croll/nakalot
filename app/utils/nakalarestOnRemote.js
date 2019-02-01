@@ -89,10 +89,6 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
       //archive.file(filepath, { name: filename });
       archive.append(csv, { name: 'nakala.csv' });
 
-      //archive.file('/home/nicolas/croll/clients/labexmed/nakalot/nakala/nakala-console/input/Nakala-Documentation-API.csv', { name: 'Nakala-Documentation-API.csv'});
-      //archive.file('/home/nicolas/croll/clients/labexmed/nakalot/nakala/nakala-console/input/Nakala-Documentation-API.docx', { name: 'Nakala-Documentation-API.docx'});
-
-
       archive.finalize();
 
     } catch (e) {
