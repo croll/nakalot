@@ -24,11 +24,9 @@ class Footer extends Component {
             <a target="_blank" rel="noopener noreferrer" href="http://labexmed.dev.croll.fr/">@labexmed</a>
             , made by <a target="_blank" rel="noopener noreferrer" href="http://croll.fr/">CROLL</a>
           </div>
-          { next !== '' && (
-            <Link className='Footer-next' to={next}>
-              Suivant&nbsp;&nbsp;<i className="fa fa-arrow-right fa-2x" />
-            </Link>
-          )}
+          <Link className={ next !== '' ? 'Footer-next' : 'Footer-next hidden' } to={next}>
+            Suivant&nbsp;&nbsp;<i className="fa fa-arrow-right fa-2x" />
+          </Link>
         </div>
     );
   }

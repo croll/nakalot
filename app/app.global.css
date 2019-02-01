@@ -119,7 +119,7 @@ a:hover {
   vertical-align: middle;
 }
 
-.Footer.onHome .Footer-next {
+.Footer.onHome .Footer-next, .Footer .Footer-next.hidden {
   left: calc(100vw + 5em);
 }
 
