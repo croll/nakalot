@@ -28,7 +28,9 @@ export default class LabeXLS {
     for (let c=0; c<columnsCount; c++) {
       const cellAdress = XLSX.utils.encode_cell({c, r: 1});
       if (typeof(sheet[cellAdress]) === 'object') {
-        if (name.localeCompare(sheet[cellAdress].v) === 0) {
+        let str = ''+sheet[cellAdress].v;
+        str=str.trim();
+        if (name.localeCompare(str) === 0) {
           return c;
         }
       }
@@ -74,7 +76,11 @@ export default class LabeXLS {
       const header = this.getHeaderByNum(sheet, c);
       const valueObj = sheet[XLSX.utils.encode_cell({c, r: rowNum})];
       if (header && valueObj) {
-        csvArray.push([ (header+'').toLowerCase(), valueObj.v]);
+        let str_h = ''+header;
+        let str_v = ''+valueObj.v;
+        str_h = str_h.trim().toLowerCase();
+        str_v = str_v.trim();
+        csvArray.push([ str_h, str_v]);
       }
     }
 
