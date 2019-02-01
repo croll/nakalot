@@ -1,7 +1,7 @@
 
 <div align="center">
 
-!**Nakalot** help uploading files to Nakala, using a spreadsheet definition
+## **Nakalot** help uploading files to Nakala, using a spreadsheet definition
 
 </div>
 
