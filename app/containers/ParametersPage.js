@@ -15,11 +15,11 @@ class ParametersPage extends Component {
   static propTypes = {
     email: PropTypes.string,
     apikey: PropTypes.string,
-    userhandle: PropTypes.string,
+    //userhandle: PropTypes.string,
 
     setParametersEmail: PropTypes.func,
     setParametersApiKey: PropTypes.func,
-    setParametersUserHandle: PropTypes.func,
+    //setParametersUserHandle: PropTypes.func,
     setTransientsBack: PropTypes.func.isRequired,
     setTransientsNext: PropTypes.func.isRequired,
   };
@@ -34,13 +34,13 @@ class ParametersPage extends Component {
 
   static checkForm(props) {
     const {
-      email, apikey, userhandle, setTransientsNext
+      email, apikey, /*userhandle,*/ setTransientsNext
     } = props;
 
     if (
       (typeof(email) === 'string' && email.length > 0)
       && (typeof(apikey) === 'string' && apikey.length > 0)
-      && (typeof(userhandle) === 'string' && userhandle.length > 0)) {
+      /*&& (typeof(userhandle) === 'string' && userhandle.length > 0)*/) {
       setTransientsNext(routes.FILECHOOSE);
     } else {
       setTransientsNext('');
@@ -56,11 +56,11 @@ class ParametersPage extends Component {
     const {
       email,
       apikey,
-      userhandle,
+      //userhandle,
 
       setParametersEmail,
       setParametersApiKey,
-      setParametersUserHandle,
+      //setParametersUserHandle,
     } = this.props;
 
     return (
@@ -77,13 +77,15 @@ class ParametersPage extends Component {
             <label htmlFor="apikey">Nakala API Key :</label>
             <input id="apikey" name="apikey" type="text" value={apikey} onChange={(e) => { setParametersApiKey(e.target.value )}}/>
           </div>
+        </div>
+      </div>
+    );
+    /*
           <div className="userhandle">
             <label htmlFor="userhandle">Nakala User Handle :</label>
             <input id="userhandle" name="userhandle" type="text" value={userhandle} onChange={(e) => { setParametersUserHandle(e.target.value )}}/>
           </div>
-        </div>
-      </div>
-    );
+    */
   }
 }
 
@@ -91,7 +93,7 @@ const mapStateToProps = state => ({
   email: state.parameters.email,
   password: state.parameters.password,
   apikey: state.parameters.apikey,
-  userhandle: state.parameters.userhandle,
+  //userhandle: state.parameters.userhandle,
 });
 
 function mapDispatchToProps(dispatch) {

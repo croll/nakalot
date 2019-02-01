@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import * as TransientsActions from '../actions/transients';
 import routes from '../constants/routes';
 
-import NakalaQL from '../utils/nakalaql';
+//import NakalaQL from '../utils/nakalaql';
 import NakalaREST from '../utils/nakalarest';
 
 import { remote } from 'electron';
@@ -26,7 +26,7 @@ class UploadingPage extends Component {
   static propTypes = {
     email: PropTypes.string.isRequired,
     apikey: PropTypes.string.isRequired,
-    userhandle: PropTypes.string.isRequired,
+    //userhandle: PropTypes.string.isRequired,
     xlsfilepath: PropTypes.string.isRequired,
     labexls: PropTypes.object.isRequired,
     setTransientsBack: PropTypes.func.isRequired,
@@ -46,7 +46,7 @@ class UploadingPage extends Component {
     this.props.setTransientsNext('');
 
     this.dirpath = path.dirname(props.xlsfilepath);
-    this.nakalaql = new NakalaQL(props.userhandle);
+    //this.nakalaql = new NakalaQL(props.userhandle);
     this.nakalarest = new NakalaREST(props.email, props.apikey);
     this.simu = {
       count: 0,
@@ -175,33 +175,49 @@ class UploadingPage extends Component {
     let status = labexls.getValue(sheet, colStatusNum, linenum);
     //console.log("status: ", status);
 
-    if (status === "UPLOAD") {
+    if (status === "UPLOAD" || status === "UPLOAD METADATA" || status === "UPLOAD METADATAS") {
+      const uploadFile = status === "UPLOAD";
       if (simu) {
         simu.count++;
       } else {
         try {
           let fileHandle = labexls.getValue(sheet, colHandleNum, linenum);
-          let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
+          //let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
+          let collectionHandle = labexls.getValueOfColName(sheet, 'handle collection', linenum);
           let fileName = labexls.getValueOfColName(sheet, 'Nom du document', linenum);
           let csv=[];
           //csv.push(['nkl:accessEmail', email ]);
 
+          if (collectionHandle) {
+            let res = collectionHandle.match(/[0-9a-f]+\/[0-9a-f]+$/);
+            if (res && res.length === 1) {
+              collectionHandle = res[0];
+              csv.push(['nkl:inCollection', collectionHandle ]);
+            } else {
+              throw new Error("handle collection is invalid");
+            }
+          } else {
+            throw new Error("handle collection must be set !");
+          }
+
+          /*
           if (typeof(collectionHandleName) === 'string') {
             collectionHandleName = collectionHandleName.trim();
-            let handle = await this.nakalaql.getCollectionHandle(collectionHandleName);
-            if (handle) {
-              let res = handle.match(/[0-9a-f]+\/[0-9a-f]+$/);
+            let collectionHandle = await this.nakalaql.getCollectionHandle(collectionHandleName);
+            if (collectionHandle) {
+              let res = collectionHandle.match(/[0-9a-f]+\/[0-9a-f]+$/);
               if (res && res.length === 1) {
-                handle = res[0];
-                csv.push(['nkl:inCollection', handle ]);
+                collectionHandle = res[0];
+                csv.push(['nkl:inCollection', collectionHandle ]);
               }
             } else {
 
             }
           }
+          */
 
           csv = labexls.convertRowToCSV(sheet, linenum, csv);
-          const res = await this.nakalarest.upload(this.dirpath+path.sep+fileName, fileHandle, fileName, csv);
+          const res = await this.nakalarest.upload(uploadFile ? this.dirpath+path.sep+fileName : null, fileHandle, fileName, csv);
 
 
           logline[3] = res ? (res.success ? 'OK' : res.message) : 'unknown';
