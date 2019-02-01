@@ -227,7 +227,7 @@ class UploadingPage extends Component {
 
           sheet[XLSX.utils.encode_cell({c: colStatusNum, r: linenum})] = {
             t: 's' /* type: string */,
-            v: ''+(res ? (res.success ? true : res.message) : 'unknown') /* value */,
+            v: ''+(res ? (res.success ? 'OK' : res.message) : 'unknown') /* value */,
           };
 
           if (res && res.success === true && res.handleId) {
