@@ -1,7 +1,7 @@
 {
   "name": "nakalot",
   "productName": "Nakalot",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Nakalot help uploading files to Nakala, using a spreadsheet definition",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -88,7 +88,9 @@
     },
     "linux": {
       "target": [
-        "AppImage"
+        "AppImage",
+        "deb",
+        "rpm"
       ],
       "category": "Development"
     },
