@@ -66,7 +66,7 @@ class ParametersPage extends Component {
     return (
       <div className="Parameters">
         <h2 className="stage">
-          1. Parametres d'envoi
+          1. Paramètres d'envoi
         </h2>
         <div className="form">
           <div className="email">
