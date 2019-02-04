@@ -72,7 +72,7 @@ export default class LabeXLS {
       csvArray.push([...param]);
     });
     const { c: columnsCount } = this.getSheetEnds(sheet);
-    for (let c=5; c<columnsCount; c++) {
+    for (let c=5; c<=columnsCount; c++) {
       const header = this.getHeaderByNum(sheet, c);
       const valueObj = sheet[XLSX.utils.encode_cell({c, r: rowNum})];
       if (header && valueObj) {
