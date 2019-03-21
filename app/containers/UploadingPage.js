@@ -13,6 +13,7 @@ import NakalaREST from '../utils/nakalarest';
 
 import { remote } from 'electron';
 const path = remote.require('path');
+const fs = remote.require('fs');
 
 import XLSX from 'xlsx';
 
@@ -39,6 +40,8 @@ class UploadingPage extends Component {
     this.state={
       todoCount: 0,
       doneCount: 0,
+      todoSize: 0,
+      doneSize: 0,
       log: [],
     }
 
@@ -50,12 +53,15 @@ class UploadingPage extends Component {
     this.nakalarest = new NakalaREST(props.email, props.apikey);
     this.simu = {
       count: 0,
+      size: 0,
+      sizes: {},
     }
     this.uploadTabs(this.simu)
       .then(() => {
         this.setState({
           todoCount: this.simu.count,
           doneCount: 0,
+          todoSize: this.simu.size,
         });
         console.log("file count to upload: ", this.simu.count);
 
@@ -129,6 +135,8 @@ class UploadingPage extends Component {
     const {
       todoCount,
       doneCount,
+      todoSize,
+      doneSize,
       log,
     } = this.state;
 
@@ -143,6 +151,10 @@ class UploadingPage extends Component {
         <div className="progress">
           <progress value={doneCount} max={todoCount}></progress>
         </div>
+        <div className="progress">
+          <progress value={doneSize} max={todoSize}></progress>
+        </div>
+        <div>{doneSize} / {todoSize}</div>
         <div className="csvlog">
           {this.renderLog(log)}
         </div>
@@ -161,6 +173,8 @@ class UploadingPage extends Component {
     const labexls = this.props.labexls;
     const email = this.props.email;
 
+    const startDoneSize = this.state.doneSize;
+
     const colStatusNum = 0;
     const colHandleNum = 1;
 
@@ -178,7 +192,19 @@ class UploadingPage extends Component {
     if (status === "UPLOAD" || status === "UPLOAD METADATA" || status === "UPLOAD METADATAS") {
       const uploadFile = status === "UPLOAD";
       if (simu) {
-        simu.count++;
+        try {
+          simu.count++;
+
+          if (uploadFile) {
+            let fileName = ''+labexls.getValueOfColName(sheet, 'Nom du document', linenum);
+            fileName = fileName.trim();
+            const stats = fs.statSync(this.dirpath+path.sep+fileName);
+            simu.size += stats.size;
+            simu.sizes[linenum]=stats.size;
+          }
+        } catch (err) {
+          console.error(err);
+        }
       } else {
         try {
           let fileHandle = labexls.getValue(sheet, colHandleNum, linenum);
@@ -222,9 +248,16 @@ class UploadingPage extends Component {
           csv = labexls.convertRowToCSV(sheet, linenum, csv);
           let res;
           try {
-            res = await this.nakalarest.upload(uploadFile ? this.dirpath+path.sep+fileName : null, fileHandle, fileName, csv);
+            res = await this.nakalarest.upload(uploadFile ? this.dirpath+path.sep+fileName : null, fileHandle, fileName, csv, uploaded => {
+              this.setState({
+                doneSize : startDoneSize + uploaded,
+              });
+            });
           } catch (err) {
             res = { success: false, message: ''+err };
+            this.setState({
+              doneSize : startDoneSize + this.simu.sizes[linenum],
+            });
           }
 
           logline[3] = res ? (res.success ? 'OK' : res.message) : 'unknown';
@@ -249,6 +282,7 @@ class UploadingPage extends Component {
           this.addToLog(logline);
           this.setState({
             doneCount: this.state.doneCount + 1,
+            doneSize : startDoneSize + (this.simu.sizes[linenum] !== undefined ? this.simu.sizes[linenum] : 0),
           });
         }
       }

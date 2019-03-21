@@ -4,7 +4,7 @@ const archiver = require('archiver');
 const querystring = require('querystring');
 
 
-module.exports.upload = (filepath, handle, filename, csv, params) => {
+module.exports.upload = (filepath, handle, filename, csv, params, progressCB) => {
   let fstream;
   const p=new Promise((resolve, reject) => {
     try {
@@ -108,12 +108,14 @@ module.exports.upload = (filepath, handle, filename, csv, params) => {
   const readedInt = setInterval(() => {
     if (fstream) {
       console.log("readed: ", fstream.bytesRead);
+      if (progressCB) progressCB(fstream.bytesRead);
     }
   }, 1000);
 
   return new Promise((resolve, reject) => {
     p.then(r => {
       clearInterval(readedInt);
+      if (progressCB && fstream) progressCB(fstream.bytesRead);
       resolve(r);
       return r;
     }).catch(err => {

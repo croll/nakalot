@@ -7,7 +7,7 @@ export default class NakalaREST {
     this.params = { email, apikey };
   }
 
-  upload = (filepath, handle, filename, csv) => {
-    return plop.upload(filepath, handle, filename, csv, this.params);
+  upload = (filepath, handle, filename, csv, progressCB) => {
+    return plop.upload(filepath, handle, filename, csv, this.params, progressCB);
   }
 }
