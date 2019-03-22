@@ -59,7 +59,8 @@ module.exports.upload = (filepath, handle, filename, csv, params, progressCB) =>
       });
 
       const archive = archiver('zip', {
-        zlib: { level: 3 } // Sets the compression level.
+        zlib: { level: 3 }, // Sets the compression level.
+        forceZip64: true,  // 4GB file support
       });
 
       archive.on('warning', err => {
