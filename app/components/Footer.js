@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import routes from '../constants/routes';
 import { connect } from 'react-redux'
 
+const pjson = require('../../package.json');
+
 
 class Footer extends Component {
 
@@ -17,12 +19,14 @@ class Footer extends Component {
   };
 
   render() {
+    const version = pjson.version;
     const { pathname, back, next } = this.props;
     return (
         <div className={'Footer' + (pathname == '/' ? ' onHome' : '')}>
           <div className='Footer-title'>
-            <a target="_blank" rel="noopener noreferrer" href="http://labexmed.dev.croll.fr/">©labexmed</a>
-            , made by <a target="_blank" rel="noopener noreferrer" href="http://croll.fr/">CROLL</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://gitlab.huma-num.fr/nakala-tools/nakalot/">Nakalot&nbsp;{version}</a>
+            &nbsp;<a target="_blank" rel="noopener noreferrer" href="http://labexmed.dev.croll.fr/">©labexmed</a>
+            ,&nbsp;made&nbsp;by&nbsp;<a target="_blank" rel="noopener noreferrer" href="http://croll.fr/">CROLL</a>
           </div>
           <Link className={ next !== '' ? 'Footer-next' : 'Footer-next hidden' } to={next}>
             Suivant&nbsp;&nbsp;<i className="fa fa-arrow-right fa-2x" />
