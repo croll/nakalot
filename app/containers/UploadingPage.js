@@ -154,7 +154,6 @@ class UploadingPage extends Component {
         <div className="progress">
           <progress value={doneSize} max={todoSize}></progress>
         </div>
-        <div>{doneSize} / {todoSize}</div>
         <div className="csvlog">
           {this.renderLog(log)}
         </div>
@@ -187,16 +186,17 @@ class UploadingPage extends Component {
     ];
 
     let status = labexls.getValue(sheet, colStatusNum, linenum);
-    //console.log("status: ", status);
+    console.log("status: ", status);
 
     if (status === "UPLOAD" || status === "UPLOAD METADATA" || status === "UPLOAD METADATAS") {
       const uploadFile = status === "UPLOAD";
+      console.log("status FOUND: ", status);
       if (simu) {
         try {
           simu.count++;
 
           if (uploadFile) {
-            let fileName = ''+labexls.getValueOfColName(sheet, 'Nom du document', linenum);
+            let fileName = ''+labexls.getValueOfColName(sheet, 'nom du document', linenum);
             fileName = fileName.trim();
             const stats = fs.statSync(this.dirpath+path.sep+fileName);
             simu.size += stats.size;
@@ -210,7 +210,7 @@ class UploadingPage extends Component {
           let fileHandle = labexls.getValue(sheet, colHandleNum, linenum);
           //let collectionHandleName = labexls.getValueOfColName(sheet, 'Niveau', linenum);
           let collectionHandle = labexls.getValueOfColName(sheet, 'handle collection', linenum);
-          let fileName = ''+labexls.getValueOfColName(sheet, 'Nom du document', linenum);
+          let fileName = ''+labexls.getValueOfColName(sheet, 'nom du document', linenum);
           fileName = fileName.trim();
           let csv=[];
           //csv.push(['nkl:accessEmail', email ]);
@@ -221,7 +221,7 @@ class UploadingPage extends Component {
             let res = collectionHandle.match(/[0-9a-f]+\/[0-9a-f]+$/);
             if (res && res.length === 1) {
               collectionHandle = res[0];
-              csv.push(['nkl:inCollection', collectionHandle ]);
+              csv.push(['nkl:incollection', collectionHandle ]);
             } else {
               throw new Error("handle collection is invalid");
             }
