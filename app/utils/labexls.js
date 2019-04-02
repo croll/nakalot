@@ -42,7 +42,11 @@ export default class LabeXLS {
     const obj = sheet[XLSX.utils.encode_cell({r, c})];
     if (obj !== undefined) {
       if (obj.v !== undefined) {
-        return obj.v;
+        console.log("typeof : ", typeof obj.v);
+        if (typeof obj.v === 'string')
+          return obj.v.trim();
+        else
+          return obj.v;
       }
     }
     return undefined;
@@ -78,13 +82,16 @@ export default class LabeXLS {
       if (header && valueObj) {
         let str_h = ''+header;
         let str_v = ''+valueObj.v;
-        str_h = str_h.trim().toLowerCase();
+        //str_h = str_h.trim().toLowerCase();
+        str_h = str_h.trim(); // do not lowercase, there are some fields that have upper case, and nakala is case sensitive
         str_v = str_v.trim();
         csvArray.push([ str_h, str_v]);
       }
     }
 
     const csvSheet = XLSX.utils.aoa_to_sheet(csvArray);
+
+    console.log("CSV: ", XLSX.utils.sheet_to_csv(csvSheet));
     return XLSX.utils.sheet_to_csv(csvSheet);
   }
 
