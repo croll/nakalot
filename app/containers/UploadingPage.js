@@ -151,9 +151,11 @@ class UploadingPage extends Component {
         <div className="progress">
           <progress value={doneCount} max={todoCount}></progress>
         </div>
+        {/*
         <div className="progress">
           <progress value={doneSize} max={todoSize}></progress>
         </div>
+        */}
         <div className="csvlog">
           {this.renderLog(log)}
         </div>
