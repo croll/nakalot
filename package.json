@@ -66,6 +66,10 @@
       "app/nakalarestOnRemote.js",
       "package.json"
     ],
+    "mac": {
+      "icon": "resources/icon.icns",
+      "target": "dmg"
+    },
     "dmg": {
       "icon": "resources/icon.icns",
       "contents": [
