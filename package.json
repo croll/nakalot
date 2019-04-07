@@ -67,6 +67,7 @@
       "package.json"
     ],
     "dmg": {
+      "icon": "resources/icon.icns",
       "contents": [
         {
           "x": 130,
