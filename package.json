@@ -67,11 +67,10 @@
       "package.json"
     ],
     "mac": {
-      "icon": "resources/icon.icns",
-      "target": "dmg"
+      "icon": "resources/icons/1024x1024.png"
     },
     "dmg": {
-      "icon": "resources/icon.icns",
+      "icon": "resources/icons/1024x1024.png",
       "contents": [
         {
           "x": 130,
