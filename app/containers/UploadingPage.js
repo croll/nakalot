@@ -223,7 +223,7 @@ class UploadingPage extends Component {
             let res = collectionHandle.match(/[0-9a-f]+\/[0-9a-f]+$/);
             if (res && res.length === 1) {
               collectionHandle = res[0];
-              csv.push(['nkl:incollection', collectionHandle ]);
+              csv.push(['nkl:inCollection', collectionHandle ]);
             } else {
               throw new Error("handle collection is invalid");
             }
