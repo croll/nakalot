@@ -112,12 +112,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/croll/nakalot.git"
+    "url": "git@gitlab.huma-num.fr:nakala-tools/nakalot.git"
   },
   "author": {
     "name": "CROLL SAS",
     "email": "contact@croll.fr",
-    "url": "https://github.com/croll/nakalot"
+    "url": "https://gitlab.huma-num.fr/nakala-tools/nakalot"
   },
   "contributors": [
     {
@@ -133,13 +133,13 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/croll/nakalot/issues"
+    "url": "https://gitlab.huma-num.fr/nakala-tools/nakalot/issues"
   },
   "keywords": [
     "nakala",
     "croll"
   ],
-  "homepage": "https://github.com/croll/nakalot#readme",
+  "homepage": "https://gitlab.huma-num.fr/nakala-tools/nakalot#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
@@ -195,7 +195,7 @@
     "css-loader": "^1.0.1",
     "detect-port": "^1.3.0",
     "electron": "^4.0.0",
-    "electron-builder": "^20.38.5",
+    "electron-builder": "^20.39.0",
     "electron-devtools-installer": "^2.2.4",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
@@ -232,6 +232,7 @@
     "redux-logger": "^3.0.6",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.1.0",
+    "semantic-release-gitlab": "^8.0.1",
     "sinon": "^7.1.1",
     "spectron": "^5.0.0",
     "style-loader": "^0.23.1",
